@@ -154,25 +154,36 @@ namespace MexGrammar
             return result;
         }
 
-        //mex-3 = operator mex-1 ... /KUhE/ | mex-4
+        //mex-2 = operator mex + /KUhE/ | operand
+        // equivelent to
+        //mex-2 = operator mex mex* /KUhE/ | operand
         private Expression mex2()
         {
-            if (lex.Current.Type == Terminals.Operator)
+            tryToMatchResult r = tryToMatch(new List<ParseMethod> { operato, mex });
+
+            if (r.success)
             {
-                //operator mex-1 ... /KUhE/
+                //operator mex + /KUhE/
                 Expression e = new Expression();
-                e.Op = lex.Advance();
+                e.Op = r.result[0].Op;
                 e.Notation = Expression.OperatorNotation.Polish;
+                e.ExprType = Expression.ExpressionType.Expression;
+                
                 List<Expression> args = new List<Expression>();
-                args.Add(mex1());
+                args.Add(r.result[1]);
+
+                //grab as many mex as you can to be arguments.
                 while (true)
                 {
-                    tryToMatchResult r = tryToMatch(mex1);
+                    r = tryToMatch(mex);
                     if (r.success)
-                        args.Add(r.result);
+                    {
+                        args.Add(r.result[0]);
+                    }
                     else
                         break;
                 }
+
                 e.Args = args;
 
                 if (lex.Current.Type == Terminals.KUhE)
