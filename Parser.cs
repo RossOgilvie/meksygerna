@@ -154,12 +154,12 @@ namespace MexGrammar
             return result;
         }
 
-        //mex-2 = operator mex + /KUhE/ | operand
+        //mex-2 = operator mex-2 + /KUhE/ | operand
         // equivelent to
-        //mex-2 = operator mex mex* /KUhE/ | operand
+        //mex-2 = operator mex-2 mex-2* /KUhE/ | operand
         private Expression mex2()
         {
-            tryToMatchResult r = tryToMatch(new List<ParseMethod> { operato, mex });
+            tryToMatchResult r = tryToMatch(new List<ParseMethod> { operato, mex2 });
 
             if (r.success)
             {
@@ -175,7 +175,7 @@ namespace MexGrammar
                 //grab as many mex as you can to be arguments.
                 while (true)
                 {
-                    r = tryToMatch(mex);
+                    r = tryToMatch(mex2);
                     if (r.success)
                     {
                         args.Add(r.result[0]);

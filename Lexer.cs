@@ -165,8 +165,10 @@ namespace MexGrammar
                     break;
                 case "ve'o":
                 case ")":
-                case "ku'e":
                     _Type = Terminals.VEhO;
+                    break;
+                case "ku'e":
+                    _Type = Terminals.KUhE;
                     break;
                 case "bo":
                     _Type = Terminals.BO;
