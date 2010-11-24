@@ -53,7 +53,7 @@ namespace MexGrammar
                     //this has made an expression with all the data we got
                     //now reset for the next loop
                     result = e;
-                    args.Clear();
+                    args = new List<Expression>();
                     args.Add(e);
 
                     // move the save forward to this point
@@ -92,7 +92,7 @@ namespace MexGrammar
 
                         //clean up for next pass of loop
                         result = e;
-                        args.Clear();
+                        args = new List<Expression>();
                         args.Add(e);
 
                         // move the save forward to this point
@@ -106,7 +106,7 @@ namespace MexGrammar
                 }
             }
 
-            //resore to last place we had a fulle match
+            //resore to last place we had a full match
             lex.Seek(save);
             return result;
         }
@@ -351,6 +351,7 @@ namespace MexGrammar
                 {
                     lex.Seek(save);
                     r.success = false;
+                    break;
                 }
             }
             return r;
