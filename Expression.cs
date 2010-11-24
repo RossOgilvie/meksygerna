@@ -145,8 +145,8 @@ namespace MexGrammar
             switch (ExprType)
             {
                 case ExpressionType.Number:
-                    result = ((double)this) + " ";
-                    break;
+                    return ((double)this) + " ";
+
                 case ExpressionType.Letter:
                     foreach (string s in Ls)
                     {
@@ -162,7 +162,8 @@ namespace MexGrammar
                         }
 
                     }
-                    break;
+                    return result;
+
                 default:
                     switch (Op)
                     {
@@ -176,7 +177,8 @@ namespace MexGrammar
                                 for (int i = 1; i < Args.Count; i++)
                                     result += "+ " + Args[i].OutputLatex();
                             }
-                            break;
+                            return result;
+
                         case "-":
                         case "vu'u":
                             if (Args.Count == 0)
@@ -187,7 +189,8 @@ namespace MexGrammar
                                 for (int i = 1; i < Args.Count; i++)
                                     result += "- " + Args[i].OutputLatex();
                             }
-                            break;
+                            return result;
+
                         case "*":
                         case "pi'i":
                             if (Args.Count == 0)
@@ -198,7 +201,8 @@ namespace MexGrammar
                                 for (int i = 1; i < Args.Count; i++)
                                     result += "\\times " + Args[i].OutputLatex();
                             }
-                            break;
+                            return result;
+
                         case "/":
                         case "fe'i":
                             if (Args.Count == 0)
@@ -212,7 +216,8 @@ namespace MexGrammar
                                     result += "\\times " + Args[i].OutputLatex();
                                 result += "}";
                             }
-                            break;
+                            return result;
+
                         case "te'a":
                         case "^":
                             if (Args.Count == 0)
@@ -220,38 +225,50 @@ namespace MexGrammar
                             else if (Args.Count == 1)
                                 return Args[0].OutputLatex();
                             else
-                            {
-                                result = "{" + Args[0].OutputLatex() + "}^{" + Args[1].OutputLatex() + "}";
-                            }
-                            break;
+                                return "{" + Args[0].OutputLatex() + "}^{" + Args[1].OutputLatex() + "}";
+
+                        case "gei":
+                            if (Args.Count == 0)
+                                return "1";
+                            else if (Args.Count == 1)
+                                return "10 ^ { " + Args[0].OutputLatex() + " } ";
+                            else if (Args.Count == 2)
+                                return "{" + Args[1].OutputLatex() + "} \\times 10^{" + Args[1].OutputLatex() + "}";
+                            else
+                                return "{" + Args[1].OutputLatex() + "} \\times {" + Args[2].OutputLatex() + "}^{" + Args[1].OutputLatex() + "}";
+
                         case "fa'i":
                             if (Args.Count == 0)
                                 return "1";
                             else
                                 return "\\frac{1}{" + Args[0].OutputLatex() + "}";
+
                         case "va'a":
                             if (Args.Count == 0)
                                 return "0";
                             else
                                 return "{-" + Args[0].OutputLatex() + "}";
+
                         case "fe'a":
                             if (Args.Count == 0)
                                 return "0";
                             else
                                 return "\\sqrt{" + Args[0].OutputLatex() + "}";
+
                         default:
-                            result = "unsupported op: " + Op;
-                            break;
+                            return "unsupported op: " + Op;
                     }
                     break;
             }
-
-            return result;
         }
 
         //evaluate
         public static implicit operator double(Expression exp)
         {
+            //if you have a letter, throw an error
+            if (exp.ExprType == ExpressionType.Letter)
+                throw new ArgumentException("Tried to evaluate an expression with a letter in it:" + exp.OutputPolish());
+
             //handling for numbers
             if(exp.ExprType == ExpressionType.Number)
             {

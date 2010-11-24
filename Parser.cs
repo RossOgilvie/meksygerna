@@ -19,7 +19,7 @@ namespace MexGrammar
         public Expression Result;
 
         #region grammar functions
-        //mex = mex-1 (operator mex-1 | mex * operator /KUhE#/) *
+        //mex = mex-1 (operator mex-1 | mex-1 * operator /KUhE#/) *
         private Expression mex()
         {
             //Get the mex1
@@ -62,10 +62,10 @@ namespace MexGrammar
                     //if that didn't match, try matching an RP expression
                 else
                 {
-                    //grab as many mex as you can to be arguments.
+                    //grab as many mex-1 as you can to be arguments.
                     while (true)
                     {
-                        r = tryToMatch(mex);
+                        r = tryToMatch(mex1);
                         if (r.success)
                         {
                             args.Add(r.result[0]);
@@ -240,7 +240,7 @@ namespace MexGrammar
                     //eat the boi if it's there
                     if (lex.Current.Type == Terminals.BOI)
                         lex.Advance();
-                    return r.result[0];
+                    return s.result[0];
                 }
             }
 
