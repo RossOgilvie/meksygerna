@@ -13,72 +13,75 @@ namespace MexGrammar
             PAs = new List<string>();
             Ls = new List<string>();
             Notation = OperatorNotation.Infix;
+            ExprType = ExpressionType.Expression;
         }
 
         public string Op;
-        public bool isNum = false;
-        public bool isLetter = false;
         public List<Expression> Args;
         public List<string> PAs;
         public List<string> Ls;
         public OperatorNotation Notation;
+        public ExpressionType ExprType;
 
         public override string ToString()
         {
             //If this is a number, return the value of the number, otherwise return the operator name
-            if (isNum)
-                return ((double)this).ToString();
-            else if (isLetter)
+            switch (ExprType)
             {
-                string result = "";
-                foreach (string s in Ls)
-                {
-                    switch (s.Length)
+                case ExpressionType.Number:
+                    return ((double)this).ToString();
+                case ExpressionType.Letter:
+                    string result = "";
+                    foreach (string s in Ls)
                     {
-                        case 2:
-                        case 3:
-                            result += s[0];
-                            break;
-                        default:
-                            result += s;
-                            break;
-                    }
+                        switch (s.Length)
+                        {
+                            case 2:
+                            case 3:
+                                result += s[0];
+                                break;
+                            default:
+                                result += s;
+                                break;
+                        }
 
-                }
-                return result;
+                    }
+                    return result;
+                default:
+                    return Op;
             }
-            else
-                return Op;
         }
 
         public string OutputPolish()
         {
             string result = "";
-            if (isNum)
-                result = ((double)this) + " ";
-            else if (isLetter)
+            switch (ExprType)
             {
-                foreach (string s in Ls)
-                {
-                    switch (s.Length)
+                case ExpressionType.Number:
+                    result = ((double)this) + " ";
+                    break;
+                case ExpressionType.Letter:
+                    foreach (string s in Ls)
                     {
-                        case 2:
-                        case 3:
-                            result += s[0];
-                            break;
-                        default:
-                            result += s;
-                            break;
-                    }
+                        switch (s.Length)
+                        {
+                            case 2:
+                            case 3:
+                                result += s[0];
+                                break;
+                            default:
+                                result += s;
+                                break;
+                        }
 
-                }
-            }
-            else
-            {
-                result += "(" + Op + " ";
-                foreach (Expression e in Args)
-                    result += e.OutputPolish();
-                result += ")";
+                    }
+                    break;
+                default:
+                    result += "(" + Op + " ";
+                    foreach (Expression e in Args)
+                        result += e.OutputPolish();
+                    result += ")";
+                    break;
             }
 
             return result;
@@ -87,48 +90,50 @@ namespace MexGrammar
         public string OutputPolishVerbose()
         {
             string result = "";
-            if (isNum)
-                result = ((double)this) + " ";
-            else if (isLetter)
+            switch (ExprType)
             {
-                foreach (string s in Ls)
-                {
-                    switch (s.Length)
+                case ExpressionType.Number:
+                    result = ((double)this) + " ";
+                    break;
+                case ExpressionType.Letter:
+                    foreach (string s in Ls)
                     {
-                        case 2:
-                        case 3:
-                            result += s[0];
+                        switch (s.Length)
+                        {
+                            case 2:
+                            case 3:
+                                result += s[0];
+                                break;
+                            default:
+                                result += s;
+                                break;
+                        }
+
+                    }
+                    break;
+                default:
+                    string notation = "";
+                    switch (Notation)
+                    {
+                        case OperatorNotation.Infix:
+                            notation = "i";
                             break;
-                        default:
-                            result += s;
+                        case OperatorNotation.Polish:
+                            notation = "p";
+                            break;
+                        case OperatorNotation.ReversePolish:
+                            notation = "r";
+                            break;
+                        case OperatorNotation.InfixBO:
+                            notation = "b";
                             break;
                     }
 
-                }
-            }
-            else
-            {
-                string notation = "";
-                switch(Notation)
-                {
-                    case OperatorNotation.Infix:
-                        notation = "i";
-                        break;
-                    case OperatorNotation.Polish:
-                        notation = "p";
-                        break;
-                    case OperatorNotation.ReversePolish:
-                        notation = "r";
-                        break;
-                    case OperatorNotation.InfixBO:
-                        notation = "b";
-                        break;
-                }
-
-                result += "(" + Op + " " + notation + " ";
-                foreach (Expression e in Args)
-                    result += e.OutputPolishVerbose();
-                result += ")";
+                    result += "(" + Op + " " + notation + " ";
+                    foreach (Expression e in Args)
+                        result += e.OutputPolishVerbose();
+                    result += ")";
+                    break;
             }
 
             return result;
@@ -137,106 +142,108 @@ namespace MexGrammar
         public string OutputLatex()
         {
             string result = "";
-            if (isNum)
-                result = ((double)this) + " ";
-            else if(isLetter)
+            switch (ExprType)
             {
-                foreach(string s in Ls)
-                {
-                    switch (s.Length)
+                case ExpressionType.Number:
+                    result = ((double)this) + " ";
+                    break;
+                case ExpressionType.Letter:
+                    foreach (string s in Ls)
                     {
-                        case 2:
-                        case 3:
-                            result += s[0];
+                        switch (s.Length)
+                        {
+                            case 2:
+                            case 3:
+                                result += s[0];
+                                break;
+                            default:
+                                result += s;
+                                break;
+                        }
+
+                    }
+                    break;
+                default:
+                    switch (Op)
+                    {
+                        case "+":
+                        case "su'i":
+                            if (Args.Count == 0)
+                                return "0";
+                            else
+                            {
+                                result = Args[0].OutputLatex();
+                                for (int i = 1; i < Args.Count; i++)
+                                    result += "+ " + Args[i].OutputLatex();
+                            }
                             break;
+                        case "-":
+                        case "vu'u":
+                            if (Args.Count == 0)
+                                return "0";
+                            else
+                            {
+                                result = Args[0].OutputLatex();
+                                for (int i = 1; i < Args.Count; i++)
+                                    result += "- " + Args[i].OutputLatex();
+                            }
+                            break;
+                        case "*":
+                        case "pi'i":
+                            if (Args.Count == 0)
+                                return "1";
+                            else
+                            {
+                                result = Args[0].OutputLatex();
+                                for (int i = 1; i < Args.Count; i++)
+                                    result += "\\times " + Args[i].OutputLatex();
+                            }
+                            break;
+                        case "/":
+                        case "fe'i":
+                            if (Args.Count == 0)
+                                return "1";
+                            else if (Args.Count == 1)
+                                return Args[0].OutputLatex();
+                            else
+                            {
+                                result = "\\frac{" + Args[0].OutputLatex() + "}{" + Args[1].OutputLatex();
+                                for (int i = 2; i < Args.Count; i++)
+                                    result += "\\times " + Args[i].OutputLatex();
+                                result += "}";
+                            }
+                            break;
+                        case "te'a":
+                        case "^":
+                            if (Args.Count == 0)
+                                return "1";
+                            else if (Args.Count == 1)
+                                return Args[0].OutputLatex();
+                            else
+                            {
+                                result = "{" + Args[0].OutputLatex() + "}^{" + Args[1].OutputLatex() + "}";
+                            }
+                            break;
+                        case "fa'i":
+                            if (Args.Count == 0)
+                                return "1";
+                            else
+                                return "\\frac{1}{" + Args[0].OutputLatex() + "}";
+                        case "va'a":
+                            if (Args.Count == 0)
+                                return "0";
+                            else
+                                return "{-" + Args[0].OutputLatex() + "}";
+                        case "fe'a":
+                            if (Args.Count == 0)
+                                return "0";
+                            else
+                                return "\\sqrt{" + Args[0].OutputLatex() + "}";
                         default:
-                            result += s;
+                            result = "unsupported op: " + Op;
                             break;
                     }
-                    
-                }
-            }
-            else
-            {
-                switch (Op)
-                {
-                    case "+":
-                    case "su'i":
-                        if (Args.Count == 0)
-                            return "0";
-                        else
-                        {
-                            result = Args[0].OutputLatex();
-                            for (int i = 1; i < Args.Count; i++)
-                                result += "+ " + Args[i].OutputLatex();
-                        }
-                        break;
-                    case "-":
-                    case "vu'u":
-                        if (Args.Count == 0)
-                            return "0";
-                        else
-                        {
-                            result = Args[0].OutputLatex();
-                            for (int i = 1; i < Args.Count; i++)
-                                result += "- " + Args[i].OutputLatex();
-                        }
-                        break;
-                    case "*":
-                    case "pi'i":
-                        if (Args.Count == 0)
-                            return "1";
-                        else
-                        {
-                            result = Args[0].OutputLatex();
-                            for (int i = 1; i < Args.Count; i++)
-                                result += "\\times " + Args[i].OutputLatex();
-                        }
-                        break;
-                    case "/":
-                    case "fe'i":
-                        if (Args.Count == 0)
-                            return "1";
-                        else if (Args.Count == 1)
-                            return Args[0].OutputLatex();
-                        else
-                        {
-                            result = "\\frac{"+ Args[0].OutputLatex() + "}{" + Args[1].OutputLatex();
-                            for (int i = 2; i < Args.Count; i++)
-                                result += "\\times " + Args[i].OutputLatex();
-                            result += "}";
-                        }
-                        break;
-                    case "te'a":
-                    case "^":
-                        if (Args.Count == 0)
-                            return "1";
-                        else if (Args.Count == 1)
-                            return Args[0].OutputLatex();
-                        else
-                        {
-                            result = "{" + Args[0].OutputLatex() + "}^{" + Args[1].OutputLatex() + "}";
-                        }
-                        break;
-                    case "fa'i":
-                        if (Args.Count == 0)
-                            return "1";
-                        else
-                            return "\\frac{1}{" + Args[0].OutputLatex() + "}";
-                    case "va'a":
-                        if (Args.Count == 0)
-                            return "0";
-                        else
-                            return "{-" + Args[0].OutputLatex() +"}";
-                    case "fe'a":
-                        if (Args.Count == 0)
-                            return "0";
-                        else
-                            return "\\sqrt{" + Args[0].OutputLatex() + "}";
-                    default:
-                        result = "unsupported op: " + Op;
-                        break;
-                }
+                    break;
             }
 
             return result;
@@ -246,7 +253,7 @@ namespace MexGrammar
         public static implicit operator double(Expression exp)
         {
             //handling for numbers
-            if (exp.isNum)
+            if(exp.ExprType == ExpressionType.Number)
             {
                 double value = 0;
                 //first, turn any words into numerals
@@ -410,6 +417,11 @@ namespace MexGrammar
         public enum OperatorNotation
         {
             Infix, Polish, ReversePolish, InfixBO
+        }
+
+        public enum ExpressionType
+        {
+            Expression, Number, Letter, Operator
         }
     }
 }

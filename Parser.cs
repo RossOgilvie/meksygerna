@@ -19,123 +19,143 @@ namespace MexGrammar
         public Expression Result;
 
         #region grammar functions
-        //mex-1 (operator mex-1 | mex * operator /KUhE#/) *
+        //mex = mex-1 (operator mex-1 | mex * operator /KUhE#/) *
         private Expression mex()
         {
-            //mex-1 [mex-1 ... operator]
-            List<Expression> args = new List<Expression>();
-            args.Add(mex1());
+            //Get the mex1
+            Expression result = new Expression();
+            result = mex1();
 
-            //save our position, then try to match the bracket
+            //add this to be the first in a potential sequence of arguments
+            List<Expression> args = new List<Expression>();
+            args.Add(result);
+
+            //save our position, then try to match the bracket repeatedly
             int save = lex.Position;
+
+            //initialise
+            tryToMatchResult r;
 
             while (true)
             {
-                tryToMatchResult r = tryToMatch(mex1);
+                //try to match an infix expression
+                r = tryToMatch(new List<ParseMethod> { operato, mex1 });
                 if (r.success)
-                    args.Add(r.result);
+                {
+                    //we have successfully matched an infix expression
+                    Expression e = new Expression();
+                    e.Notation = Expression.OperatorNotation.Infix;
+                    e.Op = r.result[0].Op;
+                    args.Add(r.result[1]);
+                    e.Args = args;
+                    e.ExprType = Expression.ExpressionType.Expression;
+
+                    //this has made an expression with all the data we got
+                    //now reset for the next loop
+                    result = e;
+                    args.Clear();
+                    args.Add(e);
+
+                    // move the save forward to this point
+                    save = lex.Position;
+                }
+                    //if that didn't match, try matching an RP expression
                 else
-                    break;
+                {
+                    //grab as many mex as you can to be arguments.
+                    while (true)
+                    {
+                        r = tryToMatch(mex);
+                        if (r.success)
+                        {
+                            args.Add(r.result[0]);
+                        }
+                        else
+                            break;
+                    }
+
+                    //now try to match an operator
+                    r = tryToMatch(operato);
+                    if (r.success)
+                    {
+                        //successful have matched a whole RP
+                        //turn it into an Expression
+                        Expression e = new Expression();
+                        e.Notation = Expression.OperatorNotation.ReversePolish;
+                        e.Op = r.result[0].Op;
+                        e.Args = args;
+                        e.ExprType = Expression.ExpressionType.Expression;
+
+                        //eat the optional KUhE
+                        if (lex.Current.Type == Terminals.KUhE)
+                            lex.Advance();
+
+                        //clean up for next pass of loop
+                        result = e;
+                        args.Clear();
+                        args.Add(e);
+
+                        // move the save forward to this point
+                        save = lex.Position;
+                    }
+                    else
+                    {
+                        //we have failed to match an infix and an RP, so we are done
+                        break;
+                    }
+                }
             }
 
-            //if there is an operator, then we have matched the bracket, otherwise not and we have to roll back
-            if (lex.Current.Type == Terminals.Operator)
-            {
-                Expression e = new Expression();
-                e.Op = lex.Advance();
-                e.Args = args;
-                e.Notation = Expression.OperatorNotation.ReversePolish;
-                return e;
-            }
-            else
-            {
-                lex.Seek(save);
-                return args[0];
-            }
+            //resore to last place we had a fulle match
+            lex.Seek(save);
+            return result;
         }
 
-        //mex-1 = mex-2 [operator mex-2] ...
+        //mex-1 = mex-2 (operator BO mex-2)*
         private Expression mex1()
         {
             Expression result = mex2();
 
-            //[operator mex-2] ... 
+            //note where we are.
+            int save = lex.Position;
+
             while (true)
             {
-                if (lex.Current.Type == Terminals.Operator)
+                //try and get the operator
+                tryToMatchResult r = tryToMatch(operato);
+                //if you've got the operator and the BO after it
+                if (r.success && lex.Current.Type == Terminals.BO)
                 {
-                    string op = lex.Advance();
-                    tryToMatchResult r = tryToMatch(mex2);
-                    if (r.success)
+                    lex.Advance(); //eat the bo
+
+                    //try and get the mex2 after the operator
+                    tryToMatchResult s = tryToMatch(mex2);
+                    if (s.success)
                     {
                         // if you make a whole bracket
                         // then turn that into an infix expression
-                        //this also encodes the left associativity of infix.
                         Expression e = new Expression();
-                        e.Op = op;
-                        e.Args = new List<Expression> { result, r.result };
-                        e.Notation = Expression.OperatorNotation.Infix;
+                        e.Op = r.result[0].Op;
+                        e.Args = new List<Expression> { result, s.result[0] };
+                        e.Notation = Expression.OperatorNotation.InfixBO;
+                        e.ExprType = Expression.ExpressionType.Expression;
                         result = e;
+                        save = lex.Position;
                     }
                     else
-                    {
-                        //Have to wind back to the start of the bracket, the trytomatch only goes back to the op advancement
-                        lex.Seek(lex.Position - 1);
                         break;
-                    }
                 }
                 else
                     break;
             }
-            return result;
-        }
 
-        //mex-2 = mex-3 [operator [stag] BO# mex-3]...
-        private Expression mex2()
-        {
-            Expression result = mex3();
-
-            //[operator BO mex-3] ... 
-            while (true)
-            {
-                if (lex.Current.Type == Terminals.Operator)
-                {
-                    string op = lex.Advance();
-                    if (lex.Current.Type == Terminals.BO)
-                    {
-                        lex.Advance(); //eat the bo
-                        tryToMatchResult r = tryToMatch(mex3);
-                        if (r.success)
-                        {
-                            // if you make a whole bracket
-                            // then turn that into an infix expression
-                            Expression e = new Expression();
-                            e.Op = op;
-                            e.Args = new List<Expression> { result, r.result };
-                            e.Notation = Expression.OperatorNotation.InfixBO;
-                            result = e;
-                        }
-                        else
-                        {
-                            //Have to wind back to the satrt of the bracket, the trytomatch only goes back to the op advancement
-                            lex.Seek(lex.Position - 2);
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        lex.Seek(lex.Position - 1);
-                        break;
-                    }
-                }
-                else
-                    break;
-            }
+            //return the point of the last complete match.
+            lex.Seek(save);
             return result;
         }
 
         //mex-3 = operator mex-1 ... /KUhE/ | mex-4
-        private Expression mex3()
+        private Expression mex2()
         {
             if (lex.Current.Type == Terminals.Operator)
             {
@@ -162,7 +182,7 @@ namespace MexGrammar
             }
             else
             {
-                return mex4();
+                return operand();
             }
         }
 
@@ -176,7 +196,7 @@ namespace MexGrammar
 	        | gek mex gik mex-2
         	| (LAhE# / NAhE# BO#) mex /LUhU#/
         */
-        private Expression mex4()
+        private Expression operand()
         {
             if (lex.Current.Type == Terminals.VEI)
             {
@@ -184,12 +204,11 @@ namespace MexGrammar
 
                 //eat the VEI
                 lex.Advance();
-                Expression e2 = new Expression();
-                e2 = mex();
+                Expression e = mex();
                 //If there's an ellidible VEhO, eat it
                 if (lex.Current == Terminals.VEhO)
                     lex.Advance();
-                return e2;
+                return e;
             }
             else
             {
@@ -200,7 +219,7 @@ namespace MexGrammar
                     //eat the boi if it's there
                     if (lex.Current.Type == Terminals.BOI)
                         lex.Advance();
-                    return r.result;
+                    return r.result[0];
                 }
 
                 //lerfuString /BOI/
@@ -210,7 +229,7 @@ namespace MexGrammar
                     //eat the boi if it's there
                     if (lex.Current.Type == Terminals.BOI)
                         lex.Advance();
-                    return r.result;
+                    return r.result[0];
                 }
             }
 
@@ -224,7 +243,7 @@ namespace MexGrammar
             if (lex.Current.Type == Terminals.PA)
             {
                 result.PAs.Add(lex.Advance());
-                result.isNum = true;
+                result.ExprType = Expression.ExpressionType.Number;
                 while (true)
                 {
                     if (lex.Current.Type == Terminals.PA)
@@ -244,7 +263,7 @@ namespace MexGrammar
         private Expression lerfuString()
         {
             Expression e = new Expression();
-            e.isLetter = true;
+            e.ExprType = Expression.ExpressionType.Letter;
 
             if (lex.Current.Type == Terminals.BY)
             {
@@ -280,27 +299,48 @@ namespace MexGrammar
             return e;
         }
 
+        //operator = Operator
+        private Expression operato()
+        {
+            if(lex.Current.Type == Terminals.Operator)
+            {
+                Expression e = new Expression();
+                e.ExprType = Expression.ExpressionType.Operator;
+                e.Op = lex.Advance();
+                return e;
+            }
+            else
+                throw new ParseError("Expected operator",lex.Current);
+        }
         #endregion
 
         private delegate Expression ParseMethod();
         struct tryToMatchResult
         {
             public bool success;
-            public Expression result;
+            public List<Expression> result;
         }
         private tryToMatchResult tryToMatch(ParseMethod m)
         {
+            return tryToMatch(new List<ParseMethod> { m });
+        }
+        private tryToMatchResult tryToMatch(List<ParseMethod> m)
+        {
             int save = lex.Position;
             tryToMatchResult r = new tryToMatchResult();
-            try
+            r.result = new List<Expression>();
+            foreach (ParseMethod meth in m)
             {
-                r.result = m.Invoke();
-                r.success = true;
-            }
-            catch(Exception e)
-            {
-                lex.Seek(save);
-                r.success = false;
+                try
+                {
+                    r.result.Add(meth.Invoke());
+                    r.success = true;
+                }
+                catch
+                {
+                    lex.Seek(save);
+                    r.success = false;
+                }
             }
             return r;
         }
