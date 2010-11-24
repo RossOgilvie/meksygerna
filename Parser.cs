@@ -19,7 +19,7 @@ namespace MexGrammar
         public Expression Result;
 
         #region grammar functions
-        //mex =	mex-1 [ mex-1 ... operator]	
+        //mex-1 (operator mex-1 | mex * operator /KUhE#/) *
         private Expression mex()
         {
             //mex-1 [mex-1 ... operator]
