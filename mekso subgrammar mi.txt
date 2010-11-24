@@ -1,0 +1,61 @@
+mekso gerna pe mi
+
+sumti-6 +=
+	!tag !selbri lerfu-string /BOI#/ 
+	| !tag !selbri (LAhE# | NAhE# BO#) relative-clauses? sumti LUhU#?
+tanru-unit-2 +=
+	ME# (sumti | mex) /MEhU#/ [MOI#]	expands me to cover nu'a
+	| mex MOI#
+	| NUhA# operator					for backwards compatibility
+quantifier =
+	!selbri !sumti-6 mex				don't understand !
+	
+mex = 
+	mex-1 [mex-1 ... operator]			reverse polish
+mex-1 =
+	mex-2 [operator mex-2] ... 			infix. interpret infix stream as left asscociative
+mex-2 =									mex-3 does bo/bi'e precedence
+	mex-3 [operator BO# mex-3] ...		ditches bi'e for bo -- cool
+mex-3 =
+	operator mex-1 ... /KUhE#/			polish	
+	| mex-4
+mex-4 =									this is an atomic arg
+	number /BOI#/
+	| lerfu-string /BOI#/
+	| VEI# mex /VEhO#/
+	| NIhE# selbri /TEhU#/
+	| MOhE# sumti /TEhU#/
+	| gek mex gik mex-2
+	| (LAhE# / NAhE# BO#) mex /LUhU#/
+	
+FUhA, PEhO -> VEI
+Anaylsis of this:
+
+CLL says that forethough operands cannot contain 
+unbracketed infix. It is reflected in teh official grammar
+RP always get flagged with fu'a at the start and then only contain 
+exactly two operands/rp exps, no infix or polish
+
+There seems to be a choice: (of easy to implement LL rules)
+1) P flag optional, infix not allowed in Polish
+2) P flag required, infix allowed in Polish
+This basically asks which is higher in the rules. CLL chooses 1)
+Has advantage of easily writing
+f(x,y) + z 
+ma'o fyboi xyboi y'y ku'e su'i zy
+
+Have a principle that you should have the least amount of backtracking.
+This would mean that infix and polish should bind higher than RP.
+
+
+operator =
+	SE# operator 
+	| NAhE# operator 
+	| MAhO# mex /TEhU#/
+	| NAhU# selbri /TEhU#/ 
+	| VUhU# 
+	| JOhI# 
+	| joik-jek
+	
+number =
+	PA ...

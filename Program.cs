@@ -17,12 +17,13 @@ namespace MexGrammar
             foreach (string s in args)
                 input[0] += s + " ";
 #else
-            //input.Add("1 2 +");
-            //input.Add("1 + 2 + 3");
-            //input.Add("va'a 2 su'i 1");
-            //input.Add("+ 1 2 ku'e - 3");
-            //input.Add("vei pe'o va'a 2 ku'e su'i pe'o fe'a vei 2 te'abo re vu'u vo pi'ibo 1 pi'ibo 1 ve'o ku'e ve'o fe'i re pi'ibo 1");
-            //input.Add("vei va'a by ku'e su'i fe'a vei by te'abo re vu'u vo pi'ibo .abu pi'ibo cy ve'o ve'o fe'i re pi'ibo .abu");
+            input.Add("1 2 + * 3");
+            input.Add("1 2 +");
+            input.Add("1 + 2 + 3");
+            input.Add("va'a 2 su'i 1");
+            input.Add("+ 1 2 ku'e - 3");
+            input.Add("vei pe'o va'a 2 ku'e su'i pe'o fe'a vei 2 te'abo re vu'u vo pi'ibo 1 pi'ibo 1 ve'o ku'e ve'o fe'i re pi'ibo 1");
+            input.Add("vei va'a by ku'e su'i fe'a vei by te'abo re vu'u vo pi'ibo .abu pi'ibo cy ve'o ve'o fe'i re pi'ibo .abu");
             input.AddRange(new string[]{"biboi ciboi gei",
 "pa vu'u re",
 "pa su'i pa",
