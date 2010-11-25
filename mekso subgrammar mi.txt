@@ -1,12 +1,17 @@
 mekso gerna pe mi
 
 mex = 
-	mex-1 (operator mex-1 | operand * operator /KUhE#/) *
+	mex-1 ( infix-tail | rp-tail ) *
+infix-tail = operator mex-1
+rp-tail = operand * operator KUhE?
+	
 mex-1 =
-	mex-2 (operator BO mex-2)*
-mex-2 =
-	operator mex-2 + /KUhE#/					polish	
-	| operand
+	mex-2 ( infix-bo-tail )*
+infix-bo-tail = operator BO mex-2
+	
+mex-2 =	polish | operand
+polish = operator mex-2 * KUhE?
+
 operand =									this is an atomic arg
 	number /BOI#/
 	| lerfu-string /BOI#/
