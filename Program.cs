@@ -83,8 +83,8 @@ namespace MexGrammar
             string s = "by. cy. dy. .abu.ebu";
             Lexer l = new Lexer(s);
             ProductionStorage ps = new ProductionStorage(l);
-            LerfuString n;
-            if (ps.Retrieve<LerfuString>(out n))
+            Operand n;
+            if (ps.Retrieve<Operand>(out n))
             {
                 Console.WriteLine(l.Current.Value);
                 Console.WriteLine(n.ToString());

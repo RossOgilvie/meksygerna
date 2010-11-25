@@ -63,6 +63,10 @@ namespace MexGrammar.Productions
                     break; //if we didn't match a PA, then stop trying.
             }
 
+            //eat the BOI that might be there
+            BOI boi = new BOI();
+            ps.Retrieve<BOI>(out boi);
+
             return true;
         }
     }

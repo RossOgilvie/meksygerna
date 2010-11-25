@@ -6,7 +6,7 @@ using System.Text;
 namespace MexGrammar.Productions
 {
     /// <summary>
-    /// lerfu-string = ( BY | A BU ) ( BY | A BU )*
+    /// lerfu-string = ( BY | A BU ) ( BY | A BU )* BOI?
     /// </summary>
     class LerfuString:NonTerminal
     {
@@ -72,6 +72,10 @@ namespace MexGrammar.Productions
                 else
                     break;
             }
+
+            //eat the BOI that might be there
+            BOI boi = new BOI();
+            ps.Retrieve<BOI>(out boi);
 
             return true;
         }
