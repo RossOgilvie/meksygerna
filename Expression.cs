@@ -258,7 +258,6 @@ namespace MexGrammar
                         default:
                             return "unsupported op: " + Op;
                     }
-                    break;
             }
         }
 

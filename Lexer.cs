@@ -29,7 +29,7 @@ namespace MexGrammar
                     currWord = flushWord(currWord, _Stream);
                     flushWord(c + "", _Stream);
                 }
-                else if (isSpace(c))
+                else if (isSpace(c) || isDot(c))
                 {
                     //if it's a space, then finish off the word
                     currWord = flushWord(currWord, _Stream);
@@ -92,7 +92,7 @@ namespace MexGrammar
         }
         private bool isConsonant(char c)
         {
-            Regex r = new Regex("[bcdfgjklmnprstvxzBCDFGJKLMNPRSTVXZ.]");
+            Regex r = new Regex("[bcdfgjklmnprstvxzBCDFGJKLMNPRSTVXZ]");
             return r.IsMatch(c.ToString());
         }
         private bool isVowel(char c)
@@ -106,6 +106,10 @@ namespace MexGrammar
             //Have to escape alot of these characters
             Regex r = new Regex(@"[\+\-\*/\(\)\^]");
             return r.IsMatch(c.ToString());
+        }
+        private bool isDot(char c)
+        {
+            return c == '.' ? true: false;
         }
         #endregion
     }
