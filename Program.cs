@@ -40,6 +40,8 @@ namespace MexGrammar
 "fu'a reboi ci pi'i voboi mu pi'i su'i",
 "fu'a reboi ci su'i"});
 #endif
+            Console.WriteLine(Selmaho.VEhO.ToString());
+
             foreach (string s in input)
             {
                 //Do the parse

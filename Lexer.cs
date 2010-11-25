@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace MexGrammar
 {
-    class Lexer
+    public class Lexer
     {
         public Lexer(string input)
         {
@@ -118,7 +118,7 @@ namespace MexGrammar
         #endregion
     }
 
-    class Token
+    public class Token
     {
         public Token(string value)
         {
@@ -271,6 +271,6 @@ namespace MexGrammar
         }
     }
 
-    enum Selmaho
-    { Operator, VEI, VEhO, BO, PA, BOI, KUhE, BU, BY, A, Unknown, EndOfStream }
+    public enum Selmaho
+    { A, BO, BOI, BU, BY, KUhE, Operator, PA, VEI, VEhO, Unknown, EndOfStream }
 }
