@@ -7,10 +7,10 @@ Working from this base, I at first acted to remove the two heinous restrictions 
 1) RP expressions must start with fu'a
 2) !! RP expression have to have exactly two operands !!
 
-While doing this I noticed that both fu'a and pe'o were basically marking the start of a new mex expression. In this light I have merged PEhO and FUhA into VEI. They therefore now carry semantic meaning only, and have the same syntatic meaning as vei. For example, if I use pe'o, it means I'm starting a new mex (like vei) but it also means to the listener that I intend the mex to be a polish expression.
+While doing this I noticed that both fu'a and pe'o were basically marking the start of a new mex expression. In this light I have merged PEhO and FUhA into VEI. They therefore now carry semantic meaning only, and have the same syntactic meaning as vei. For example, if I use pe'o, it means I'm starting a new mex (like vei) but it also means to the listener that I intend the mex to be a polish expression.
 
 The role of ku'e was similarly expanded for use in RP as well. ku'e now has the 2 uses
-1) after a string of mex-2 (ie string of polish expressions and/or operands) to signal the end of an polish expression. It already had this role.
+1) after a string of mex-2 (ie string of polish expressions and/or operands) to signal the end of a polish expression. It already had this role.
 2) after an RP operator to signal the end of the RP expression. It is almost always needed in this position.
 Example 1 2 + - 3 = (1 2 (+ (- 3))) = 1 2 -3
 1 2 + ku'e - 3 = ((1 2 +) - 3) = 0
@@ -23,4 +23,4 @@ eg 1 2 + ku'e - 3 4 x = (((1 2 +) - 3) 4 x) and not ((1 2 +) - (3 4 x))
 1 2 + ku'e - fu'a 3 4 x = ((1 2 +) - (3 4 x))
 RP expressions can have operands, polish expressions, infix and RP for the first argument and operands and polish expressions for subsequent arguments.
 
-It is slightly unfortunate that the subsequent arguments of infix and RP expressions are restricted, but this restriction follows directly from the principle of minimising backtracking. In linguistics terms, avoiding backtracking is like trying to avoid gardenpath sentences.
+It is slightly unfortunate that the subsequent arguments of infix and RP expressions are restricted, but this restriction follows directly from the principle of minimising backtracking. In linguistics terms, avoiding backtracking is like trying to avoid garden-path sentences.
