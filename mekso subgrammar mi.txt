@@ -21,7 +21,7 @@ operand =									this is an atomic arg
 	| gek mex gik mex-2
 	| (LAhE# / NAhE# BO#) mex /LUhU#/
 	
-number = PA+
-lerfu-string = ( BY | A BU )+
+number = PA PA*
+lerfu-string = ( BY | A BU ) ( BY | A BU )*
 	
 FUhA, PEhO -> VEI

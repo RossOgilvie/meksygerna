@@ -74,6 +74,10 @@ namespace MexGrammar
             _Pointer++;
             return s;
         }
+        public void Advance(int distance)
+        {
+            _Pointer += distance;
+        }
         public int Position { get { return _Pointer; } }
         public void Seek(int Position) { _Pointer = Position; }
 

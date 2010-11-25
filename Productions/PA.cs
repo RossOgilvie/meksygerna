@@ -9,7 +9,7 @@ namespace MexGrammar.Productions
     {
         private double _Number = 0;
 
-        public override bool CreateTerminal(Lexer lex, ProductionStorage ts)
+        public override bool CreateNonTerminal(Lexer lex, ProductionStorage ts)
         {
             if (lex.Current.Type == Selmaho.PA)
             {

@@ -34,7 +34,7 @@ namespace MexGrammar.Productions
             throw new ArgumentException("Cannot evaluate A: " + _Letter);
         }
 
-        public override bool CreateTerminal(Lexer lex, ProductionStorage ts)
+        public override bool CreateNonTerminal(Lexer lex, ProductionStorage ts)
         {
             if (lex.Current.Type == Selmaho.A)
             {

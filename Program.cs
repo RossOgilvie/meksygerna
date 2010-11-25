@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MexGrammar.Productions;
 
 namespace MexGrammar
 {
     class Program
     {
+        /*
         static void Main(string[] args)
         {
             List<string> input = new List<string>();
@@ -73,6 +75,22 @@ namespace MexGrammar
 #if (DEBUG)
             Console.ReadLine();
 #endif
+        }
+        */
+
+        static void Main()
+        {
+            string s = "by. cy. dy. .abu.ebu";
+            Lexer l = new Lexer(s);
+            ProductionStorage ps = new ProductionStorage(l);
+            LerfuString n;
+            if (ps.Retrieve<LerfuString>(out n))
+            {
+                Console.WriteLine(l.Current.Value);
+                Console.WriteLine(n.ToString());
+            }
+
+            Console.ReadLine();
         }
     }
 }

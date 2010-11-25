@@ -23,6 +23,6 @@ namespace MexGrammar.Productions
         /// <param name="lex"></param>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public abstract bool CreateTerminal(Lexer lex, ProductionStorage ps);
+        public abstract bool CreateNonTerminal(Lexer lex, ProductionStorage ps);
     }
 }

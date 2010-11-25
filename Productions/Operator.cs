@@ -44,7 +44,7 @@ namespace MexGrammar.Productions
             throw new NotImplementedException();
         }
 
-        public override bool CreateTerminal(Lexer lex, ProductionStorage ts)
+        public override bool CreateNonTerminal(Lexer lex, ProductionStorage ts)
         {
             if (lex.Current.Type == Selmaho.Operator)
             {

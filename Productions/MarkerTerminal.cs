@@ -42,7 +42,7 @@ namespace MexGrammar.Productions
             throw new ArgumentException("Cannot evaluate " + _Type.ToString());
         }
 
-        public override bool CreateTerminal(Lexer lex, ProductionStorage ts)
+        public override bool CreateNonTerminal(Lexer lex, ProductionStorage ts)
         {
             if (lex.Current.Type == _Type)
             {
