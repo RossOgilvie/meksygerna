@@ -1,7 +1,7 @@
 mekso gerna pe mi
 
 mex = 
-	mex-1 (operator mex-1 | mex-1 * operator /KUhE#/) *
+	mex-1 (operator mex-1 | operand * operator /KUhE#/) *
 mex-1 =
 	mex-2 (operator BO mex-2)*
 mex-2 =
