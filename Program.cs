@@ -17,7 +17,8 @@ namespace MexGrammar
             foreach (string s in args)
                 input[0] += s + " ";
 #else
-            input.Add("1 2 + ku'e * 3");
+            input.Add(".abu pi'ibo xy. te'abo re su'i by. pi'ibo xy. su'i cy.");
+            input.Add("1 by. + ku'e * 3");
             input.Add("1 2 + * 3");
             input.Add("1 2 +");
             input.Add("1 + 2 + 3");
@@ -30,7 +31,6 @@ namespace MexGrammar
 "pa su'i pa",
 "pa fe'i re pi'ibo .abu",
 "fe'i re pi'ibo .abu",
-".abu pi'ibo xy. te'abo re su'i by. pi'ibo xy. su'i cy.",
 "ci su'i vo pi'i bo mu",
 "ci su'i vo pi'i mu",
 "ci vu'u re",
@@ -48,7 +48,11 @@ namespace MexGrammar
                 {
                     Lexer lex = new Lexer(s);
                     Parser par = new Parser(lex);
-                    Console.WriteLine(par.Result);
+                    try
+                    {
+                        Console.WriteLine(par.Result);
+                    }
+                    catch { } //expressions with letters in them throw an exception.
                     Console.WriteLine(par.Result.OutputPolish());
                     Console.WriteLine(par.Result.OutputPolishVerbose());
                     Console.WriteLine(par.Result.OutputLatex());

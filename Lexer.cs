@@ -33,12 +33,16 @@ namespace MexGrammar
                 {
                     //if it's a space, then finish off the word
                     currWord = flushWord(currWord, _Stream);
-                    //if that word was a PA, then add a boi (spaces terminate numbers)
-                    if (_Stream[_Stream.Count - 1].Type == Terminals.PA)
-                        _Stream.Add(new Token("boi"));
-                    //if that word was an A, then add a bu (spaces terminate letter)
-                    if (_Stream[_Stream.Count - 1].Type == Terminals.A)
-                        _Stream.Add(new Token("bu"));
+                    //check it wasn't a space or . at the beginning of the input.
+                    if (_Stream.Count > 0)
+                    {
+                        //if that word was a PA, then add a boi (spaces terminate numbers)
+                        if (_Stream[_Stream.Count - 1].Type == Terminals.PA)
+                            _Stream.Add(new Token("boi"));
+                        //if that word was an A, then add a bu (spaces terminate letter)
+                        if (_Stream[_Stream.Count - 1].Type == Terminals.A)
+                            _Stream.Add(new Token("bu"));
+                    }
                 }
             }
 
@@ -118,10 +122,6 @@ namespace MexGrammar
     {
         public Token(string value)
         {
-            //remove leading .
-            if (value.Length > 0)
-                if (value[0] == '.')
-                    value = value.Substring(1);
             _Value = value;
             setType(value);
         }
