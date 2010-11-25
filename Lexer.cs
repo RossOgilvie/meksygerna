@@ -37,10 +37,10 @@ namespace MexGrammar
                     if (_Stream.Count > 0)
                     {
                         //if that word was a PA, then add a boi (spaces terminate numbers)
-                        if (_Stream[_Stream.Count - 1].Type == Terminals.PA)
+                        if (_Stream[_Stream.Count - 1].Type == Selmaho.PA)
                             _Stream.Add(new Token("boi"));
                         //if that word was an A, then add a bu (spaces terminate letter)
-                        if (_Stream[_Stream.Count - 1].Type == Terminals.A)
+                        if (_Stream[_Stream.Count - 1].Type == Selmaho.A)
                             _Stream.Add(new Token("bu"));
                     }
                 }
@@ -130,8 +130,8 @@ namespace MexGrammar
         public string Value
         { get { return _Value; } }
 
-        private Terminals _Type;
-        public Terminals Type
+        private Selmaho _Type;
+        public Selmaho Type
         { get { return _Type; } }
 
         private void setType(string s)
@@ -156,26 +156,26 @@ namespace MexGrammar
                 case "fe'a":
                 case "ne'o":
                 case "va'a":
-                    _Type = Terminals.Operator;
+                    _Type = Selmaho.Operator;
                     break;
                 case "eof!":
-                    _Type = Terminals.EndOfStream;
+                    _Type = Selmaho.EndOfStream;
                     break;
                 case "fu'a":
                 case "pe'o":
                 case "vei":
                 case "(":
-                    _Type = Terminals.VEI;
+                    _Type = Selmaho.VEI;
                     break;
                 case "ve'o":
                 case ")":
-                    _Type = Terminals.VEhO;
+                    _Type = Selmaho.VEhO;
                     break;
                 case "ku'e":
-                    _Type = Terminals.KUhE;
+                    _Type = Selmaho.KUhE;
                     break;
                 case "bo":
-                    _Type = Terminals.BO;
+                    _Type = Selmaho.BO;
                     break;
                 case "0":
                 case "1":
@@ -197,13 +197,13 @@ namespace MexGrammar
                 case "ze":
                 case "bi":
                 case "so":
-                    _Type = Terminals.PA;
+                    _Type = Selmaho.PA;
                     break;
                 case "boi":
-                    _Type = Terminals.BOI;
+                    _Type = Selmaho.BOI;
                     break;
                 case "bu":
-                    _Type = Terminals.BU;
+                    _Type = Selmaho.BU;
                     break;
                 case "by":
                 case "cy":
@@ -240,7 +240,7 @@ namespace MexGrammar
                 case "v":
                 case "x":
                 case "z":
-                    _Type = Terminals.BY;
+                    _Type = Selmaho.BY;
                     break;
                 case "a":
                 case "e":
@@ -248,15 +248,15 @@ namespace MexGrammar
                 case "o":
                 case "u":
                 case "y'y":
-                    _Type = Terminals.A;
+                    _Type = Selmaho.A;
                     break;
                 default:
-                    _Type = Terminals.Unknown;
+                    _Type = Selmaho.Unknown;
                     break;
             }
         }
 
-        public static implicit operator Terminals(Token t)
+        public static implicit operator Selmaho(Token t)
         {
             return t.Type;
         }
@@ -271,6 +271,6 @@ namespace MexGrammar
         }
     }
 
-    enum Terminals
+    enum Selmaho
     { Operator, VEI, VEhO, BO, PA, BOI, KUhE, BU, BY, A, Unknown, EndOfStream }
 }

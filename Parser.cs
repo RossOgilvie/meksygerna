@@ -12,7 +12,7 @@ namespace MexGrammar
         {
             lex = l;
             Result = mex();
-            if (l.Current.Type != Terminals.EndOfStream)
+            if (l.Current.Type != Selmaho.EndOfStream)
                 throw new ParseError("Parse ended before end of input.", l.Current);
         }
 
@@ -87,7 +87,7 @@ namespace MexGrammar
                         e.ExprType = Expression.ExpressionType.Expression;
 
                         //eat the optional KUhE
-                        if (lex.Current.Type == Terminals.KUhE)
+                        if (lex.Current.Type == Selmaho.KUhE)
                             lex.Advance();
 
                         //clean up for next pass of loop
@@ -124,7 +124,7 @@ namespace MexGrammar
                 //try and get the operator
                 tryToMatchResult r = tryToMatch(operato);
                 //if you've got the operator and the BO after it
-                if (r.success && lex.Current.Type == Terminals.BO)
+                if (r.success && lex.Current.Type == Selmaho.BO)
                 {
                     lex.Advance(); //eat the bo
 
@@ -186,7 +186,7 @@ namespace MexGrammar
 
                 e.Args = args;
 
-                if (lex.Current.Type == Terminals.KUhE)
+                if (lex.Current.Type == Selmaho.KUhE)
                     lex.Advance();
 
                 return e;
@@ -209,7 +209,7 @@ namespace MexGrammar
         */
         private Expression operand()
         {
-            if (lex.Current.Type == Terminals.VEI)
+            if (lex.Current.Type == Selmaho.VEI)
             {
                 //VEI# mex /VEhO#/
 
@@ -217,7 +217,7 @@ namespace MexGrammar
                 lex.Advance();
                 Expression e = mex();
                 //If there's an ellidible VEhO, eat it
-                if (lex.Current == Terminals.VEhO)
+                if (lex.Current == Selmaho.VEhO)
                     lex.Advance();
                 return e;
             }
@@ -228,7 +228,7 @@ namespace MexGrammar
                 if (r.success)
                 {
                     //eat the boi if it's there
-                    if (lex.Current.Type == Terminals.BOI)
+                    if (lex.Current.Type == Selmaho.BOI)
                         lex.Advance();
                     return r.result[0];
                 }
@@ -238,7 +238,7 @@ namespace MexGrammar
                 if (s.success)
                 {
                     //eat the boi if it's there
-                    if (lex.Current.Type == Terminals.BOI)
+                    if (lex.Current.Type == Selmaho.BOI)
                         lex.Advance();
                     return s.result[0];
                 }
@@ -251,13 +251,13 @@ namespace MexGrammar
         private Expression number()
         {
             Expression result = new Expression();
-            if (lex.Current.Type == Terminals.PA)
+            if (lex.Current.Type == Selmaho.PA)
             {
                 result.PAs.Add(lex.Advance());
                 result.ExprType = Expression.ExpressionType.Number;
                 while (true)
                 {
-                    if (lex.Current.Type == Terminals.PA)
+                    if (lex.Current.Type == Selmaho.PA)
                     {
                         result.PAs.Add(lex.Advance());
                     }
@@ -276,13 +276,13 @@ namespace MexGrammar
             Expression e = new Expression();
             e.ExprType = Expression.ExpressionType.Letter;
 
-            if (lex.Current.Type == Terminals.BY)
+            if (lex.Current.Type == Selmaho.BY)
             {
                 e.Ls.Add(lex.Advance());
             }
-            else if (lex.Current.Type == Terminals.A)
+            else if (lex.Current.Type == Selmaho.A)
             {
-                if (lex.Peek.Type == Terminals.BU)
+                if (lex.Peek.Type == Selmaho.BU)
                 {
                     e.Ls.Add(lex.Advance() + lex.Advance());
                 }
@@ -292,13 +292,13 @@ namespace MexGrammar
 
             while(true)
             {
-                if (lex.Current.Type == Terminals.BY)
+                if (lex.Current.Type == Selmaho.BY)
                 {
                     e.Ls.Add(lex.Advance());
                 }
-                else if (lex.Current.Type == Terminals.A)
+                else if (lex.Current.Type == Selmaho.A)
                 {
-                    if(lex.Peek.Type == Terminals.BU)
+                    if(lex.Peek.Type == Selmaho.BU)
                     {
                         e.Ls.Add(lex.Advance() +lex.Advance());
                     }
@@ -313,7 +313,7 @@ namespace MexGrammar
         //operator = Operator
         private Expression operato()
         {
-            if(lex.Current.Type == Terminals.Operator)
+            if(lex.Current.Type == Selmaho.Operator)
             {
                 Expression e = new Expression();
                 e.ExprType = Expression.ExpressionType.Operator;
