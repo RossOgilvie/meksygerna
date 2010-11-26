@@ -7,12 +7,13 @@ mex = mex-1 ( operator mex-1 | operand * operator KUhE? ) *
 	
 mex-1 =	mex-2 ( operator BO mex-2 )*
 	
-mex-2 =	operator mex-2 * KUhE? | operand
+mex-2 =	operator mex-2 + KUhE? | operand
 
 operand =
 	number
 	| lerfu-string
 	| VEI# mex /VEhO#/
+	| VEI operator VEhO?							this bizare rule is to allow nullary operators.
 	| NIhE# selbri /TEhU#/
 	| MOhE# sumti /TEhU#/
 	| gek mex gik mex-2
@@ -28,12 +29,13 @@ mex =
 mex-1 =	mex-2 ( operator BO mex-2 )*
 	
 mex-2 =	polish | operand
-polish = operator mex-2 * KUhE?
+polish = operator mex-2 + KUhE?
 
 operand =
 	number
 	| lerfu-string
 	| VEI# mex /VEhO#/
+	| VEI operator VEhO? 		
 	| NIhE# selbri /TEhU#/
 	| MOhE# sumti /TEhU#/
 	| gek mex gik mex-2

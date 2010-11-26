@@ -6,18 +6,19 @@ using System.Text;
 namespace MexGrammar.Productions
 {
     /// <summary>
-    /// polish = operator mex-2 * KUhE?
+    /// polish = operator mex-2 + KUhE?
     /// </summary>
     class Polish:Expression
     {
         public override bool CreateNonTerminal(Lexer lex, ProductionStorage ps)
         {
+            int save = lex.Position;
             if (ps.Retrieve<Operator>(out _operator))
             {
-                //matched an operator. This means we have a polish expression.
+                //matched an operator. This means we probably have a polish expression.
                 _Length += _operator.Length;
                 //try to get as many mex2 as we can
-                while (true)
+                do
                 {
                     Mex2 m;
                     if (ps.Retrieve<Mex2>(out m))
@@ -27,6 +28,14 @@ namespace MexGrammar.Productions
                     }
                     else
                         break;
+                }
+                while (true);
+
+                // Polish expressions have to have at least one argument
+                if (_args.Count == 0)
+                {
+                    lex.Seek(save);
+                    return false;
                 }
 
                 //try to grab an optional KUhE

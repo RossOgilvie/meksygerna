@@ -1,5 +1,5 @@
 README
-This is a revised subgrammar for Lojban's mekso. My grammar can be found (in minimal form) "mekso subgrammar mi.txt". This is sort of a brain-dump of my thoughts and comments about it. I'll probably revise this rant numerous times. I'm just getting it all out before I go to bed. 
+This is a revised subgrammar for Lojban's mekso. My grammar can be found (in minimal form) "mekso subgrammar mi.txt". This is sort of a brain-dump of my thoughts and comments about it. I'll probably revise this rant numerous times. 
 
 It is based on xorxes' simplification of the mekso, which unifies operators and conjunctions. This collapses the many operand and operator rules. It also ditches bi'e prefixed for bo suffixed to indicate a priority infix operator, which I think is nifty, besides being required for the conjunction + operator merger.
 
@@ -11,16 +11,21 @@ While doing this I noticed that both fu'a and pe'o were basically marking the st
 
 The role of ku'e was similarly expanded for use in RP as well. ku'e now has the 2 uses
 1) after a string of mex-2 (ie string of polish expressions and/or operands) to signal the end of a polish expression. It already had this role.
-2) after an RP operator to signal the end of the RP expression. It is almost always needed in this position.
-Example 1 2 + - 3 = (1 2 (+ (- 3))) = 1 2 -3
-1 2 + ku'e - 3 = ((1 2 +) - 3) = 0
+2) after an RP operator to signal the end of the RP expression. It is needed sometimes when the RP operator is only taking one argument and there is potential confussion for an infix operator.
+Example 1 + - 2 = (1 (+ (- 2))) = 1, -2
+1 + ku'e - 2 = (1 +) - 2 = -1
 
 The following is the hierarchy of which type of expressions can be used as arguments in other expressions. It follows the principle of requiring the least amount of backtracking.
 Polish expressions can have operands and polish expressions as arguments
 Infix BO expressions can have operands and polish expressions as arguments
 Infix expressions can have operands, polish expressions, infix and RP exps for the first argument, and operands and P exps for the second argument
-eg 1 2 + ku'e - 3 4 x = (((1 2 +) - 3) 4 x) and not ((1 2 +) - (3 4 x))
-1 2 + ku'e - fu'a 3 4 x = ((1 2 +) - (3 4 x))
-RP expressions can have operands, polish expressions, infix and RP for the first argument and operands and polish expressions for subsequent arguments.
+eg 1 2 + ku'e - 3 4 pi'i = (((1 2 +) - 3) 4 pi'i) = 0 and not ((1 2 +) - (3 4 pi'i))
+1 2 + ku'e - fu'a 3 4 pi'i = ((1 2 +) - (3 4 pi'i)) = -9
+RP expressions can have operands, polish expressions, infix and RP for the first argument and only operands for subsequent arguments.
 
 It is slightly unfortunate that the subsequent arguments of infix and RP expressions are restricted, but this restriction follows directly from the principle of minimising backtracking. In linguistics terms, avoiding backtracking is like trying to avoid garden-path sentences.
+
+I used to allow RP expressions to have operands and polish expressions as subsequent arguments. This effectively forced a ku'e to be required after every RP operator, otherwise the RP operator had a tendency to become a polish one. If you want to use a polish expression as an argument for an RP expression 1) you're probably being a pain in the arse, I mean seriously, Polish and Reverse Polish in the one thing?! 2) just use a pe'o ... ku'e .
+
+Since I was basically expanding RP to have any number of arguments, I wanted a way to have nullary operators. A few times I've put them in as a form of Polish. But it tends to stuff things up. For the moment they are permitted if you wrap the operator by itself in brackets. Maybe I'll think of a clever way of putting them in 'naturalistically'.
+
