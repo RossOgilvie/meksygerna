@@ -27,9 +27,7 @@ mex =
 infix-tail = operator mex-1
 rp-tail = operand * operator KUhE?
 	
-mex-1 =
-	mex-2 ( infix-bo-tail )*
-infix-bo-tail = operator BO mex-2
+mex-1 =	mex-2 ( operator BO mex-2 )*
 	
 mex-2 =	polish | operand
 polish = operator mex-2 * KUhE?

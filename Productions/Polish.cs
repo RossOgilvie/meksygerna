@@ -8,7 +8,7 @@ namespace MexGrammar.Productions
     /// <summary>
     /// polish = operator mex-2 * KUhE?
     /// </summary>
-    class Polish:Expression<Mex2>
+    class Polish:Expression
     {
         public override bool CreateNonTerminal(Lexer lex, ProductionStorage ps)
         {
@@ -39,6 +39,11 @@ namespace MexGrammar.Productions
 
             //we failed.
             return false;
+        }
+
+        public override string Verbose()
+        {
+            return base.Verbose("p");
         }
     }
 }

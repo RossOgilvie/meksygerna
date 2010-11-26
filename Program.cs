@@ -78,20 +78,30 @@ namespace MexGrammar
         }
         */
 
+
         static void Main()
         {
-            string s = "+ 1 2";
+            string s = "1 + bo - 3";
             Lexer l = new Lexer(s);
+            //Parser p = new Parser(l);
+            //Console.WriteLine(p.Result.OutputPolishVerbose());
             ProductionStorage ps = new ProductionStorage(l);
-            Mex2 n;
-            if (ps.Retrieve<Mex2>(out n))
+            Mex1 n;
+            if (ps.Retrieve<Mex1>(out n))
             {
-                Console.WriteLine(l.Current.Value);
-                Console.WriteLine(n.Length.ToString());
-                Console.WriteLine(n.ToString());
+                Console.WriteLine("Current Token: " +l.Current.Value);
+                Console.WriteLine("Length of production: " + n.Length.ToString());
+                Console.WriteLine(n.Verbose());
+                try
+                {
+                    Console.WriteLine("Answer: " + n.Evaluate());
+                }
+                catch { }
             }
 
+            #if (DEBUG)
             Console.ReadLine();
+            #endif
         }
     }
 }
