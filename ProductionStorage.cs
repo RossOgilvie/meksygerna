@@ -31,10 +31,19 @@ namespace MexGrammar
             //try to find the object of the appropriate type starting at the appropriate place
             if (_Storage.TryGetValue(new ProdKey(_Lex.Position, typeof(E)), out res))
             {
-                Result = (E)res;
-                //advance all the tokens this uses
-                _Lex.Advance(res.Length);
-                return true;
+                //make sure that value isn't a null marker
+                if (res != null)
+                {
+                    Result = (E)res;
+                    //advance all the tokens this uses
+                    _Lex.Advance(res.Length);
+                    return true;
+                }
+                else
+                {
+                    Result = null;
+                    return false;
+                }
             }
             else
             {
@@ -45,7 +54,7 @@ namespace MexGrammar
                 //try to create the object proper
                 if (res2.CreateNonTerminal(_Lex, this))
                 {
-                    _Storage.Add(new ProdKey(pos, typeof(E)), res);
+                    _Storage.Add(new ProdKey(pos, typeof(E)), res2);
                     Result = res2;
                     //no need to advance the lexer, CreateNonTerminal has already done this.
                     return true;
@@ -70,6 +79,11 @@ namespace MexGrammar
             {
                 Position = pos;
                 Production = prod;
+            }
+
+            public override string ToString()
+            {
+                return Production.ToString() + " at " + Position.ToString();
             }
         }
     }

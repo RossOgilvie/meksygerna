@@ -10,7 +10,7 @@ namespace MexGrammar.Productions
     /// </summary>
     class Operand:NonTerminal
     {
-        OperandType _type;
+        OperandType _type = OperandType.Undefined;
         Number _n;
         LerfuString _l;
 
@@ -94,6 +94,8 @@ namespace MexGrammar.Productions
                 _Length = _l.Length;
                 return true;
             }
+
+            //TODO: Add Vei support when you have mex type.
 
             return false;
         }

@@ -80,11 +80,11 @@ namespace MexGrammar
 
         static void Main()
         {
-            string s = "by.cy.dy..abu.ebu";
+            string s = "+ 1 2";
             Lexer l = new Lexer(s);
             ProductionStorage ps = new ProductionStorage(l);
-            Operand n;
-            if (ps.Retrieve<Operand>(out n))
+            Mex2 n;
+            if (ps.Retrieve<Mex2>(out n))
             {
                 Console.WriteLine(l.Current.Value);
                 Console.WriteLine(n.Length.ToString());

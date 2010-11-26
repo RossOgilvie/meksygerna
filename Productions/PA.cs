@@ -13,7 +13,8 @@ namespace MexGrammar.Productions
         {
             if (lex.Current.Type == Selmaho.PA)
             {
-                switch (lex.Advance())
+                string n = lex.Advance();
+                switch (n)
                 {
                     case "no":
                         _Number = 0;
@@ -46,7 +47,7 @@ namespace MexGrammar.Productions
                         _Number = 9;
                         break;
                     default:
-                        _Number = Convert.ToDouble(lex.Advance());
+                        _Number = Convert.ToDouble(n);
                         break;
                 }
 
