@@ -80,7 +80,7 @@ namespace MexGrammar
 
         static void Main()
         {
-            string s = "by. cy. dy. .abu.ebu";
+            string s = "by.cy.dy..abu.ebu";
             Lexer l = new Lexer(s);
             ProductionStorage ps = new ProductionStorage(l);
             Operand n;

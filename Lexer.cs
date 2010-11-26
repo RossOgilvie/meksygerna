@@ -29,17 +29,35 @@ namespace MexGrammar
                     currWord = flushWord(currWord, _Stream);
                     flushWord(c + "", _Stream);
                 }
-                else if (isSpace(c) || isDot(c))
+                else if (isSpace(c))
                 {
                     //if it's a space, then finish off the word
                     currWord = flushWord(currWord, _Stream);
-                    //check it wasn't a space or . at the beginning of the input.
+                    //check it wasn't a space at the beginning of the input.
                     if (_Stream.Count > 0)
                     {
                         //if that word was a PA, then add a boi (spaces terminate numbers)
                         if (_Stream[_Stream.Count - 1].Type == Selmaho.PA)
                             _Stream.Add(new Token("boi"));
-                        //if that word was an A, then add a bu (spaces terminate letter)
+                        //if that word was an A, then add a bu (spaces change A into A BU)
+                        if (_Stream[_Stream.Count - 1].Type == Selmaho.A)
+                            _Stream.Add(new Token("bu"));
+                        //if that word was an letter (BY or BU), then add a boi (spaces terminate letters)
+                        if (_Stream[_Stream.Count - 1].Type == Selmaho.BU || _Stream[_Stream.Count - 1].Type == Selmaho.BY)
+                            _Stream.Add(new Token("boi"));
+                    }
+                }
+                else if (isDot(c))
+                {
+                    //if it's a dot, then finish off the word
+                    currWord = flushWord(currWord, _Stream);
+                    //check it wasn't a . at the beginning of the input.
+                    if (_Stream.Count > 0)
+                    {
+                        //if that word was a PA, then add a boi (dots terminate numbers)
+                        if (_Stream[_Stream.Count - 1].Type == Selmaho.PA)
+                            _Stream.Add(new Token("boi"));
+                        //if that word was an A, then add a bu (dots change A into A BU)
                         if (_Stream[_Stream.Count - 1].Type == Selmaho.A)
                             _Stream.Add(new Token("bu"));
                     }
