@@ -87,6 +87,7 @@ namespace MexGrammar
             if (ps.Retrieve<Operand>(out n))
             {
                 Console.WriteLine(l.Current.Value);
+                Console.WriteLine(n.Length.ToString());
                 Console.WriteLine(n.ToString());
             }
 

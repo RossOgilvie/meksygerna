@@ -85,11 +85,13 @@ namespace MexGrammar.Productions
             if (ps.Retrieve<Number>(out _n))
             {
                 _type = OperandType.Number;
+                _Length = _n.Length;
                 return true;
             }
             else if (ps.Retrieve<LerfuString>(out _l))
             {
                 _type = OperandType.LerfuString;
+                _Length = _l.Length;
                 return true;
             }
 

@@ -46,6 +46,7 @@ namespace MexGrammar.Productions
             if (ps.Retrieve<PA>(out n))
             {
                 _Number += n.Evaluate();
+                _Length += n.Length;
             }
             else
                 return false;
@@ -58,6 +59,7 @@ namespace MexGrammar.Productions
                     _Number *= 10;
                     //add the digit to the units
                     _Number += n.Evaluate();
+                    _Length += n.Length;
                 }
                 else
                     break; //if we didn't match a PA, then stop trying.
@@ -66,6 +68,7 @@ namespace MexGrammar.Productions
             //eat the BOI that might be there
             BOI boi = new BOI();
             ps.Retrieve<BOI>(out boi);
+            _Length += boi != null ? boi.Length : 0;
 
             return true;
         }

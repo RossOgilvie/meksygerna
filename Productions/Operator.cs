@@ -49,6 +49,8 @@ namespace MexGrammar.Productions
             if (lex.Current.Type == Selmaho.Operator)
             {
                 _Operator = lex.Advance();
+                _Length = 1;
+                return true;
             }
 
             return false;
