@@ -5,19 +5,21 @@ using System.Text;
 
 namespace MexGrammar.Productions
 {
-    class InfixBO : Expression
+    class RP : Expression
     {
-        public InfixBO(NonTerminal left, Operator op, NonTerminal right)
+        public RP(List<NonTerminal> operands ,Operator op)
         {
             _operator = op;
-            _args.Add(left);
-            _args.Add(right);
-            _Length = _operator.Length + left.Length + right.Length + 1; //The 1 is for the BO
+            _args = operands;
+            int operand_length = 0;
+            foreach (NonTerminal o in operands)
+                operand_length += o.Length;
+            _Length = _operator.Length + operand_length; //TODO
         }
 
         public override string Verbose()
         {
-            return base.Verbose("ib");
+            return base.Verbose("r");
         }
 
         /// <summary>

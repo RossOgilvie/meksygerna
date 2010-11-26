@@ -81,15 +81,15 @@ namespace MexGrammar
 
         static void Main()
         {
-            string s = "1 + bo - 3";
+            string s = "1 + va'a 2 ku'e pi'i xa";
             Lexer l = new Lexer(s);
             //Parser p = new Parser(l);
             //Console.WriteLine(p.Result.OutputPolishVerbose());
             ProductionStorage ps = new ProductionStorage(l);
-            Mex1 n;
-            if (ps.Retrieve<Mex1>(out n))
+            Mex n;
+            if (ps.Retrieve<Mex>(out n))
             {
-                Console.WriteLine("Current Token: " +l.Current.Value);
+                Console.WriteLine("Current Token: " + l.Current.Value);
                 Console.WriteLine("Length of production: " + n.Length.ToString());
                 Console.WriteLine(n.Verbose());
                 try

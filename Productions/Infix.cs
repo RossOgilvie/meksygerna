@@ -5,19 +5,19 @@ using System.Text;
 
 namespace MexGrammar.Productions
 {
-    class InfixBO : Expression
+    class Infix : Expression
     {
-        public InfixBO(NonTerminal left, Operator op, NonTerminal right)
+        public Infix(NonTerminal left, Operator op, NonTerminal right)
         {
             _operator = op;
             _args.Add(left);
             _args.Add(right);
-            _Length = _operator.Length + left.Length + right.Length + 1; //The 1 is for the BO
+            _Length = _operator.Length + left.Length + right.Length;
         }
 
         public override string Verbose()
         {
-            return base.Verbose("ib");
+            return base.Verbose("i");
         }
 
         /// <summary>

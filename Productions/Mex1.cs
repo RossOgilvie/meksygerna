@@ -10,103 +10,65 @@ namespace MexGrammar.Productions
     /// </summary>
     class Mex1 : NonTerminal
     {
-        InfixBO _ib;
-        Mex2 _m2;
-        Mex1Type _type = Mex1Type.Unknown;
+        NonTerminal result;
 
         public override string ToString()
         {
-            switch (_type)
-            {
-                case Mex1Type.InfixBO:
-                    return _ib.ToString();
-                case Mex1Type.Mex2:
-                    return _m2.ToString();
-                default:
-                    return "Mex1 not yet iniatialised.";
-            }
+            return result != null ? result.ToString() : "Mex1 not yet iniatialised.";
         }
 
         public override string ToPolish()
         {
-            switch (_type)
-            {
-                case Mex1Type.InfixBO:
-                    return _ib.ToPolish();
-                case Mex1Type.Mex2:
-                    return _m2.ToPolish();
-                default:
-                    return "Mex1 not yet iniatialised.";
-            }
+            return result != null ? result.ToPolish() : "Mex1 not yet iniatialised.";
         }
 
         public override string Verbose()
         {
-            switch (_type)
-            {
-                case Mex1Type.InfixBO:
-                    return _ib.Verbose();
-                case Mex1Type.Mex2:
-                    return _m2.Verbose();
-                default:
-                    return "Mex1 not yet iniatialised.";
-            }
+            return result != null ? result.Verbose() : "Mex1 not yet iniatialised.";
         }
 
         public override string ToLatex()
         {
-            switch (_type)
-            {
-                case Mex1Type.InfixBO:
-                    return _ib.ToLatex();
-                case Mex1Type.Mex2:
-                    return _m2.ToLatex();
-                default:
-                    return "Mex1 not yet iniatialised.";
-            }
+            return result != null ? result.ToLatex() : "Mex1 not yet iniatialised.";
         }
 
         public override double Evaluate()
         {
-            switch (_type)
-            {
-                case Mex1Type.InfixBO:
-                    return _ib.Evaluate();
-                case Mex1Type.Mex2:
-                    return _m2.Evaluate();
-                default:
-                    throw new NullReferenceException("Mex1 not yet iniatialised.");
-            }
+            if (result != null)
+                return result.Evaluate();
+            else
+                throw new NullReferenceException("Mex1 not yet iniatialised.");
         }
 
         public override bool CreateNonTerminal(Lexer lex, ProductionStorage ps)
         {
-            if (ps.Retrieve<Mex2>(out _m2))
+            Mex2 left;
+            if (ps.Retrieve<Mex2>(out left))
             {
-                _Length = _m2.Length;
-                _type = Mex1Type.Mex2;
+                _Length = left.Length;
+                result = left;
 
                 while (true)
                 {
                     Operator op;
                     BO bo;
-                    Mex2 m2;
+                    Mex2 right;
 
                     //( operator bo mex2 )
-                    if (ps.Retrieve<Operator>(out op) && ps.Retrieve<BO>(out bo) && ps.Retrieve<Mex2>(out m2))
+                    int save = lex.Position;
+                    if (ps.Retrieve<Operator>(out op) && ps.Retrieve<BO>(out bo) && ps.Retrieve<Mex2>(out right))
                     {
                         //if we're done this, then we have the whole bracket.
                         //turn it into an infixbo
-                        if (_type == Mex1Type.Mex2)
-                            _ib = new InfixBO(_m2, op, m2);
-                        else
-                            _ib = new InfixBO(_ib, op, m2);
+                        result = new InfixBO(result, op, right);
 
-                        _type = Mex1Type.InfixBO;
-                        _Length = _ib.Length;
+                        _Length = result.Length;
                     }
                     else
+                    {
+                        lex.Seek(save);
                         break;
+                    }
 
                 }
 
@@ -115,7 +77,5 @@ namespace MexGrammar.Productions
             else
                 return false; //you have to match a Mex2 first
         }
-
-        enum Mex1Type { InfixBO, Mex2, Unknown }
     }
 }

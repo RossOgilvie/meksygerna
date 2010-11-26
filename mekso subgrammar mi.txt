@@ -23,9 +23,7 @@ lerfu-string = ( BY | A BU )+ BOI
 
 Long Form, for ease of programming
 mex = 
-	mex-1 ( infix-tail | rp-tail ) *
-infix-tail = operator mex-1
-rp-tail = operand * operator KUhE?
+	mex-1 ( operator mex-1 | operand * operator KUhE? ) *
 	
 mex-1 =	mex-2 ( operator BO mex-2 )*
 	
