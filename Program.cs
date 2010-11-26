@@ -81,7 +81,7 @@ namespace MexGrammar
 
         static void Main()
         {
-            string s = "1 + va'a 2 ku'e pi'i xa";
+            string s = "1 + vei va'a 2 ku'e ve'o pi'i xa";
             Lexer l = new Lexer(s);
             //Parser p = new Parser(l);
             //Console.WriteLine(p.Result.OutputPolishVerbose());

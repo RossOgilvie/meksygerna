@@ -10,93 +10,69 @@ namespace MexGrammar.Productions
     /// </summary>
     class Operand:NonTerminal
     {
-        OperandType _type = OperandType.Undefined;
-        Number _n;
-        LerfuString _l;
+        NonTerminal result;
 
         public override string ToString()
         {
-            switch (_type)
-            {
-                case OperandType.Number:
-                    return _n.ToString();
-                case OperandType.LerfuString:
-                    return _l.ToString();
-                default:
-                    return "Unknown operand type";
-            }
-
+            return result != null ? result.ToString() : "Mex1 not yet iniatialised.";
         }
 
         public override string ToPolish()
         {
-            switch (_type)
-            {
-                case OperandType.Number:
-                    return _n.ToPolish();
-                case OperandType.LerfuString:
-                    return _l.ToPolish();
-                default:
-                    return "Unknown operand type";
-            }
+            return result != null ? result.ToPolish() : "Mex1 not yet iniatialised.";
         }
 
         public override string Verbose()
         {
-            switch (_type)
-            {
-                case OperandType.Number:
-                    return _n.Verbose();
-                case OperandType.LerfuString:
-                    return _l.Verbose();
-                default:
-                    return "Unknown operand type";
-            }
+            return result != null ? result.Verbose() : "Mex1 not yet iniatialised.";
         }
 
         public override string ToLatex()
         {
-            switch (_type)
-            {
-                case OperandType.Number:
-                    return _n.ToLatex();
-                case OperandType.LerfuString:
-                    return _l.ToLatex();
-                default:
-                    return "Unknown operand type";
-            }
+            return result != null ? result.ToLatex() : "Mex1 not yet iniatialised.";
         }
 
         public override double Evaluate()
         {
-            switch (_type)
-            {
-                case OperandType.Number:
-                    return _n.Evaluate();
-                case OperandType.LerfuString:
-                    return _l.Evaluate();
-                default:
-                    throw new ArgumentException("Unknown operand type");
-            }
+            if (result != null)
+                return result.Evaluate();
+            else
+                throw new NullReferenceException("Mex1 not yet iniatialised.");
         }
 
         public override bool CreateNonTerminal(Lexer lex, ProductionStorage ps)
         {
+            int save = lex.Position;
+
+            Number _n;
+            LerfuString _l;
+            VEI _v;
+            Mex _m;
+
             if (ps.Retrieve<Number>(out _n))
             {
-                _type = OperandType.Number;
-                _Length = _n.Length;
+                result = _n;
+                _Length = result.Length;
                 return true;
             }
             else if (ps.Retrieve<LerfuString>(out _l))
             {
-                _type = OperandType.LerfuString;
+                result = _l;
                 _Length = _l.Length;
                 return true;
             }
+            else if (ps.Retrieve<VEI>(out _v) && ps.Retrieve<Mex>(out _m))
+            {
+                result = _m;
+                _Length = result.Length;
 
-            //TODO: Add Vei support when you have mex type.
+                VEhO _vo;
+                ps.Retrieve<VEhO>(out _vo);
+                _Length += _vo != null ? _vo.Length : 0;
+                return true;
+            }
 
+            lex.Seek(save);
             return false;
         }
 
