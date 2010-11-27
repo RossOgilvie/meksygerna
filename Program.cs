@@ -79,29 +79,78 @@ namespace MexGrammar
         */
 
 
-        static void Main()
+        static void Main(string[] args)
         {
-            string s = "1 + vei va'a 2 ku'e ve'o pi'i xa";
-            Lexer l = new Lexer(s);
-            //Parser p = new Parser(l);
-            //Console.WriteLine(p.Result.OutputPolishVerbose());
-            ProductionStorage ps = new ProductionStorage(l);
-            Mex n;
-            if (ps.Retrieve<Mex>(out n))
+            //string s = "1 + vei va'a 2 ku'e ve'o pi'i xa";
+            //Lexer l = new Lexer(s);
+            //ProductionStorage ps = new ProductionStorage(l);
+            //Mex n;
+            //if (ps.Retrieve<Mex>(out n))
+            //{
+                //Console.WriteLine("Current Token: " + l.Current.Value);
+                //Console.WriteLine("Length of production: " + n.Length.ToString());
+                //Console.WriteLine(n.Verbose());
+                //try
+                //{
+                //    Console.WriteLine("Answer: " + n.Evaluate());
+                //}
+                //catch { }
+            //}
+
+            TestLatex();
+#if (DEBUG)
+            Console.ReadLine();
+#endif
+        }
+
+        static void TestLatex()
+        {
+            string j = "";
+            j += @"\documentclass{article}\begin{document}";
+
+            foreach (string k in test)
             {
-                Console.WriteLine("Current Token: " + l.Current.Value);
-                Console.WriteLine("Length of production: " + n.Length.ToString());
-                Console.WriteLine(n.Verbose());
-                try
+
+
+                string i = k.Split('|')[0];
+                Lexer l = new Lexer(i);
+                ProductionStorage ps = new ProductionStorage(l);
+                Mex n;
+                if (ps.Retrieve<Mex>(out n))
                 {
-                    Console.WriteLine("Answer: " + n.Evaluate());
+                    j += i + " == $";
+                    j += n.ToLatex();
+                    j+= "$";
+                    try
+                    {
+                        j += " = " + n.Evaluate().ToString();
+                    }
+                    catch { }
+                    j += "\r\n";
                 }
-                catch { }
             }
 
-            #if (DEBUG)
-            Console.ReadLine();
-            #endif
+            j += @"\end{document}";
+            Console.WriteLine(j);
         }
+
+        static string[] test = new string[]
+        {
+            "pa su'i pa | 1 + 1 = 2",
+"ci su'i vo pi'i mu | 3 + 4 * 5 (=35)",
+"ci su'i vo pi'i bo mu | 3 + 4 * bo 5 (= 23)",
+"vei ny. su'i pa ve'o pi'i vei ny. su'i pa | (n+1)(n+1)",
+"ny. te'a re su'i re pi'ibo ny. su'i pa | n^2 + 2 *n + 1",
+"su'i paboi reboi ci | +(1,2,3) = 6",
+"py. su'i va'a ny. ku'e su'i zy | p + -n + z",
+"pe'o su'i paboi reboi ciboi ku'e",
+"py. su'i pe'o va'a ny. ku'e su'i zy",
+"ci vu'u re",
+"fu'a reboi ci su'i",
+"reboi ci su'i | not CLL",
+"fu'a reboi ci pi'i voboi mu pi'i su'i",
+".abu pi'ibo vei xy. te'a re ve'o su'i by. pi'ibo xy. su'i cy. |quadratic root",
+"vei va'a by. ku'e su'i fe'a vei by. te'abo re vu'u vo pi'ibo .abu pi'ibo cy. ve'o ve'o fe'i re pi'ibo .abu |quad formula"
+        };
     }
 }

@@ -48,6 +48,7 @@ namespace MexGrammar.Productions
         public override string ToLatex()
         {
             string result = "";
+
             switch (_operator.ToString())
             {
                 case "+":

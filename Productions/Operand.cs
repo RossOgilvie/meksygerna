@@ -29,7 +29,15 @@ namespace MexGrammar.Productions
 
         public override string ToLatex()
         {
-            return result != null ? result.ToLatex() : "Mex1 not yet iniatialised.";
+            if (result != null)
+            {
+                string output = "";
+                output += result.GetType() == typeof(Mex) ? "\\left( " : "";
+                output += result.ToLatex();
+                output += result.GetType() == typeof(Mex) ? " \\right) " : "";
+                return output;
+            }
+            else return "Mex1 not yet iniatialised.";
         }
 
         public override double Evaluate()
@@ -74,11 +82,6 @@ namespace MexGrammar.Productions
 
             lex.Seek(save);
             return false;
-        }
-
-        private enum OperandType
-        {
-            Number, LerfuString, Vei, Undefined
         }
     }
 }
