@@ -43,7 +43,7 @@ namespace MexGrammar.Productions
 
             //get the leading PA
             PA n;
-            if (ps.Retrieve<PA>(out n))
+            if (ps.MakeProduction<PA>(out n))
             {
                 _Number += n.Evaluate();
                 _Length += n.Length;
@@ -53,7 +53,7 @@ namespace MexGrammar.Productions
 
             while (true)
             {
-                if (ps.Retrieve<PA>(out n))
+                if (ps.MakeProduction<PA>(out n))
                 {
                     //shift the digits up one place value
                     _Number *= 10;
@@ -67,7 +67,7 @@ namespace MexGrammar.Productions
 
             //eat the BOI that might be there
             BOI boi = new BOI();
-            ps.Retrieve<BOI>(out boi);
+            ps.MakeProduction<BOI>(out boi);
             _Length += boi != null ? boi.Length : 0;
 
             return true;

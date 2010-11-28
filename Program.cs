@@ -110,13 +110,11 @@ namespace MexGrammar
 
             foreach (string k in test)
             {
-
-
                 string i = k.Split('|')[0];
                 Lexer l = new Lexer(i);
                 ProductionStorage ps = new ProductionStorage(l);
                 Mex n;
-                if (ps.Retrieve<Mex>(out n))
+                if (ps.MakeProduction<Mex>(out n))
                 {
                     j += i + " == $";
                     j += n.ToLatex();

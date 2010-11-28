@@ -43,7 +43,7 @@ namespace MexGrammar.Productions
         public override bool CreateNonTerminal(Lexer lex, ProductionStorage ps)
         {
             Mex2 left;
-            if (ps.Retrieve<Mex2>(out left))
+            if (ps.MakeProduction<Mex2>(out left))
             {
                 _Length = left.Length;
                 result = left;
@@ -56,7 +56,7 @@ namespace MexGrammar.Productions
 
                     //( operator bo mex2 )
                     int save = lex.Position;
-                    if (ps.Retrieve<Operator>(out op) && ps.Retrieve<BO>(out bo) && ps.Retrieve<Mex2>(out right))
+                    if (ps.MakeProduction<Operator>(out op) && ps.MakeProduction<BO>(out bo) && ps.MakeProduction<Mex2>(out right))
                     {
                         //if we're done this, then we have the whole bracket.
                         //turn it into an infixbo

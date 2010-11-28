@@ -13,7 +13,7 @@ namespace MexGrammar.Productions
         public override bool CreateNonTerminal(Lexer lex, ProductionStorage ps)
         {
             int save = lex.Position;
-            if (ps.Retrieve<Operator>(out _operator))
+            if (ps.MakeProduction<Operator>(out _operator))
             {
                 //matched an operator. This means we probably have a polish expression.
                 _Length += _operator.Length;
@@ -21,7 +21,7 @@ namespace MexGrammar.Productions
                 do
                 {
                     Mex2 m;
-                    if (ps.Retrieve<Mex2>(out m))
+                    if (ps.MakeProduction<Mex2>(out m))
                     {
                         _args.Add(m);
                         _Length += m.Length;
@@ -40,7 +40,7 @@ namespace MexGrammar.Productions
 
                 //try to grab an optional KUhE
                 KUhE k;
-                ps.Retrieve<KUhE>(out k);
+                ps.MakeProduction<KUhE>(out k);
                 _Length += k != null ? k.Length : 0;
 
                 return true;

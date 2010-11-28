@@ -44,7 +44,7 @@ namespace MexGrammar.Productions
         public override bool CreateNonTerminal(Lexer lex, ProductionStorage ps)
         {
             Mex1 m1;
-            if (ps.Retrieve<Mex1>(out m1))
+            if (ps.MakeProduction<Mex1>(out m1))
             {
                 _Length = m1.Length;
                 result = m1;
@@ -58,7 +58,7 @@ namespace MexGrammar.Productions
 
                     //( operator mex1 )
                     int save = lex.Position;
-                    if (ps.Retrieve<Operator>(out op) && ps.Retrieve<Mex1>(out m12))
+                    if (ps.MakeProduction<Operator>(out op) && ps.MakeProduction<Mex1>(out m12))
                     {
                         //if we're done this, then we have the whole bracket.
                         //turn it into an infix
@@ -77,14 +77,14 @@ namespace MexGrammar.Productions
                         while (true)
                         {
                             Operand oper;
-                            if(ps.Retrieve<Operand>(out oper))
+                            if(ps.MakeProduction<Operand>(out oper))
                                 o.Add(oper);
                             else
                                 break;
                         }
 
                         //operator
-                        if (ps.Retrieve<Operator>(out op))
+                        if (ps.MakeProduction<Operator>(out op))
                         {
                             result = new RP(o, op);
                             _Length = result.Length;
@@ -96,7 +96,7 @@ namespace MexGrammar.Productions
                         }
 
                         KUhE k;
-                        ps.Retrieve<KUhE>(out k);
+                        ps.MakeProduction<KUhE>(out k);
                         _Length += k != null ? k.Length : 0; 
                     }
                 }

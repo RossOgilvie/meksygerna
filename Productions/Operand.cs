@@ -57,25 +57,25 @@ namespace MexGrammar.Productions
             VEI _v;
             Mex _m;
 
-            if (ps.Retrieve<Number>(out _n))
+            if (ps.MakeProduction<Number>(out _n))
             {
                 result = _n;
                 _Length = result.Length;
                 return true;
             }
-            else if (ps.Retrieve<LerfuString>(out _l))
+            else if (ps.MakeProduction<LerfuString>(out _l))
             {
                 result = _l;
                 _Length = _l.Length;
                 return true;
             }
-            else if (ps.Retrieve<VEI>(out _v) && ps.Retrieve<Mex>(out _m))
+            else if (ps.MakeProduction<VEI>(out _v) && ps.MakeProduction<Mex>(out _m))
             {
                 result = _m;
                 _Length = result.Length;
 
                 VEhO _vo;
-                ps.Retrieve<VEhO>(out _vo);
+                ps.MakeProduction<VEhO>(out _vo);
                 _Length += _vo != null ? _vo.Length : 0;
                 return true;
             }

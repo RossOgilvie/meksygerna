@@ -98,6 +98,7 @@ namespace MexGrammar
         }
         public int Position { get { return _Pointer; } }
         public void Seek(int Position) { _Pointer = Position; }
+        public int Length { get { return _Stream.Count; } }
 
         #region Character sorting functions
         private bool isSpace(char c)

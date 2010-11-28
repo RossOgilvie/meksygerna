@@ -85,13 +85,13 @@ namespace MexGrammar.Productions
 
         public override bool CreateNonTerminal(Lexer lex, ProductionStorage ps)
         {
-            if (ps.Retrieve<Polish>(out _polish))
+            if (ps.MakeProduction<Polish>(out _polish))
             {
                 _type = Mex2Type.Polish;
                 _Length = _polish.Length;
                 return true;
             }
-            else if (ps.Retrieve<Operand>(out _operand))
+            else if (ps.MakeProduction<Operand>(out _operand))
             {
                 _type = Mex2Type.Operand;
                 _Length = _operand.Length;
