@@ -15,8 +15,6 @@ namespace MexGrammar.Productions
             int save = lex.Position;
             if (ps.MakeProduction<Operator>(out _operator))
             {
-                //matched an operator. This means we probably have a polish expression.
-                _Length += _operator.Length;
                 //try to get as many mex2 as we can
                 do
                 {
@@ -24,7 +22,6 @@ namespace MexGrammar.Productions
                     if (ps.MakeProduction<Mex2>(out m))
                     {
                         _args.Add(m);
-                        _Length += m.Length;
                     }
                     else
                         break;
@@ -41,7 +38,6 @@ namespace MexGrammar.Productions
                 //try to grab an optional KUhE
                 KUhE k;
                 ps.MakeProduction<KUhE>(out k);
-                _Length += k != null ? k.Length : 0;
 
                 return true;
             }

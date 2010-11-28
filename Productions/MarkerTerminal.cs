@@ -48,7 +48,6 @@ namespace MexGrammar.Productions
             {
                 //eat the marker
                 lex.Advance();
-                _Length = 1;
                 return true;
             }
 

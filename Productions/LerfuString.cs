@@ -47,16 +47,12 @@ namespace MexGrammar.Productions
             if (ps.MakeProduction<BY>(out by))
             {
                 _String += by.ToString();
-                _Length += by.Length;
             }
             else if (ps.MakeProduction<A>(out a))
             {
-                _Length += a.Length;
-
                 if (ps.MakeProduction<BU>(out bu))
                 {
                     _String += a.ToString();
-                    _Length += bu.Length;
                 }
             }
             else
@@ -69,16 +65,12 @@ namespace MexGrammar.Productions
                 if (ps.MakeProduction<BY>(out by))
                 {
                     _String += by.ToString();
-                    _Length += by.Length;
                 }
                 else if (ps.MakeProduction<A>(out a))
                 {
-                    _Length += a.Length;
-
                     if (ps.MakeProduction<BU>(out bu))
                     {
                         _String += a.ToString();
-                        _Length += bu.Length;
                     }
                 }
                 else
@@ -88,7 +80,6 @@ namespace MexGrammar.Productions
             //eat the BOI that might be there
             BOI boi = new BOI();
             ps.MakeProduction<BOI>(out boi);
-            _Length += boi != null ? boi.Length : 0;
 
             return true;
         }

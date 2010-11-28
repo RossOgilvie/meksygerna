@@ -45,7 +45,6 @@ namespace MexGrammar.Productions
             Mex2 left;
             if (ps.MakeProduction<Mex2>(out left))
             {
-                _Length = left.Length;
                 result = left;
 
                 while (true)
@@ -61,8 +60,6 @@ namespace MexGrammar.Productions
                         //if we're done this, then we have the whole bracket.
                         //turn it into an infixbo
                         result = new InfixBO(result, op, right);
-
-                        _Length = result.Length;
                     }
                     else
                     {

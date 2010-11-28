@@ -81,23 +81,23 @@ namespace MexGrammar
 
         static void Main(string[] args)
         {
-            //string s = "1 + vei va'a 2 ku'e ve'o pi'i xa";
-            //Lexer l = new Lexer(s);
-            //ProductionStorage ps = new ProductionStorage(l);
-            //Mex n;
-            //if (ps.Retrieve<Mex>(out n))
-            //{
-                //Console.WriteLine("Current Token: " + l.Current.Value);
-                //Console.WriteLine("Length of production: " + n.Length.ToString());
-                //Console.WriteLine(n.Verbose());
-                //try
-                //{
-                //    Console.WriteLine("Answer: " + n.Evaluate());
-                //}
-                //catch { }
-            //}
+            string s = "1 + vei va'a 2 ku'e ve'o pi'i xa";
+            Lexer l = new Lexer(s);
+            ProductionStorage ps = new ProductionStorage(l);
+            Mex n;
+            if (ps.MakeProduction<Mex>(out n))
+            {
+                Console.WriteLine("Current Token: " + l.Current.Value);
+                Console.WriteLine("Length of production: " + n.Length.ToString());
+                Console.WriteLine(n.Verbose());
+                try
+                {
+                    Console.WriteLine("Answer: " + n.Evaluate());
+                }
+                catch { }
+            }
 
-            TestLatex();
+            //TestLatex();
 #if (DEBUG)
             Console.ReadLine();
 #endif

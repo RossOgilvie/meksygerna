@@ -12,7 +12,6 @@ namespace MexGrammar.Productions
             _operator = op;
             _args.Add(left);
             _args.Add(right);
-            _Length = _operator.Length + left.Length + right.Length + 1; //The 1 is for the BO
         }
 
         public override string Verbose()

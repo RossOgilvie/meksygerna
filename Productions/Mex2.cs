@@ -10,91 +10,48 @@ namespace MexGrammar.Productions
     /// </summary>
     class Mex2:NonTerminal
     {
-        Operand _operand;
-        Polish _polish;
-        Mex2Type _type = Mex2Type.Unknown;
-        enum Mex2Type
-        {
-            Polish, Operand, Unknown
-        }
+        NonTerminal _Result;
 
         public override string ToString()
         {
-            switch (_type)
-            {
-                case Mex2Type.Operand:
-                    return _operand.ToString();
-                case Mex2Type.Polish:
-                    return _polish.ToString();
-                default:
-                    return "Mex2 not yet initialised";
-            }
+            return _Result != null?_Result.ToString():"Mex2 not yet initialised";
         }
 
         public override string ToPolish()
         {
-            switch (_type)
-            {
-                case Mex2Type.Operand:
-                    return _operand.ToPolish();
-                case Mex2Type.Polish:
-                    return _polish.ToPolish();
-                default:
-                    return "Mex2 not yet initialised";
-            }
+            return _Result != null ? _Result.ToPolish() : "Mex2 not yet initialised";
         }
 
         public override string Verbose()
         {
-            switch (_type)
-            {
-                case Mex2Type.Operand:
-                    return _operand.Verbose();
-                case Mex2Type.Polish:
-                    return _polish.Verbose();
-                default:
-                    return "Mex2 not yet initialised";
-            }
+            return _Result != null ? _Result.Verbose() : "Mex2 not yet initialised";
         }
 
         public override string ToLatex()
         {
-            switch (_type)
-            {
-                case Mex2Type.Operand:
-                    return _operand.ToLatex();
-                case Mex2Type.Polish:
-                    return _polish.ToLatex();
-                default:
-                    return "Mex2 not yet initialised";
-            }
+            return _Result != null ? _Result.ToLatex() : "Mex2 not yet initialised";
         }
 
         public override double Evaluate()
         {
-            switch (_type)
-            {
-                case Mex2Type.Operand:
-                    return _operand.Evaluate();
-                case Mex2Type.Polish:
-                    return _polish.Evaluate();
-                default:
-                    throw new ArgumentException("Mex2 not yet initialised");
-            }
+            if (_Result != null)
+                return _Result.Evaluate();
+            else
+                throw new ArgumentException("Mex2 not yet initialised");
         }
 
         public override bool CreateNonTerminal(Lexer lex, ProductionStorage ps)
         {
+            Polish _polish;
+            Operand _operand;
             if (ps.MakeProduction<Polish>(out _polish))
             {
-                _type = Mex2Type.Polish;
-                _Length = _polish.Length;
+                _Result = _polish;
                 return true;
             }
             else if (ps.MakeProduction<Operand>(out _operand))
             {
-                _type = Mex2Type.Operand;
-                _Length = _operand.Length;
+                _Result = _operand;
                 return true;
             }
 

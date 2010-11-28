@@ -60,23 +60,19 @@ namespace MexGrammar.Productions
             if (ps.MakeProduction<Number>(out _n))
             {
                 result = _n;
-                _Length = result.Length;
                 return true;
             }
             else if (ps.MakeProduction<LerfuString>(out _l))
             {
                 result = _l;
-                _Length = _l.Length;
                 return true;
             }
             else if (ps.MakeProduction<VEI>(out _v) && ps.MakeProduction<Mex>(out _m))
             {
                 result = _m;
-                _Length = result.Length;
 
                 VEhO _vo;
                 ps.MakeProduction<VEhO>(out _vo);
-                _Length += _vo != null ? _vo.Length : 0;
                 return true;
             }
 

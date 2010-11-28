@@ -52,7 +52,6 @@ namespace MexGrammar.Productions
                 }
 
                 //if we manage to make a number, then return true
-                _Length = 1;
                 return true;
             }
 

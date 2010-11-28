@@ -7,7 +7,6 @@ namespace MexGrammar.Productions
 {
     public abstract class NonTerminal
     {
-        protected int _Length = 0;
         public int Length { get; set; }
 
         public abstract override string ToString();

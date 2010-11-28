@@ -14,7 +14,6 @@ namespace MexGrammar.Productions
             int operand_length = 0;
             foreach (NonTerminal o in operands)
                 operand_length += o.Length;
-            _Length = _operator.Length + operand_length; //TODO
         }
 
         public override string Verbose()

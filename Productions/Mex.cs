@@ -46,7 +46,6 @@ namespace MexGrammar.Productions
             Mex1 m1;
             if (ps.MakeProduction<Mex1>(out m1))
             {
-                _Length = m1.Length;
                 result = m1;
 
                 //( operator mex-1 | operand * operator KUhE? ) *
@@ -63,7 +62,6 @@ namespace MexGrammar.Productions
                         //if we're done this, then we have the whole bracket.
                         //turn it into an infix
                         result = new Infix(result, op, m12);
-                        _Length = result.Length;
                     }
                         //(operand * operator KUhE?)
                     else
@@ -87,7 +85,6 @@ namespace MexGrammar.Productions
                         if (ps.MakeProduction<Operator>(out op))
                         {
                             result = new RP(o, op);
-                            _Length = result.Length;
                         }
                         else
                         {
@@ -97,7 +94,6 @@ namespace MexGrammar.Productions
 
                         KUhE k;
                         ps.MakeProduction<KUhE>(out k);
-                        _Length += k != null ? k.Length : 0; 
                     }
                 }
 

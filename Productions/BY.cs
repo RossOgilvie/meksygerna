@@ -48,7 +48,6 @@ namespace MexGrammar.Productions
                         _Letter = lex.Advance();
                         break;
                 }
-                _Length = 1;
                 return true;
             }
 
