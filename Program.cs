@@ -98,6 +98,7 @@ namespace MexGrammar
             }
 
             //TestLatex();
+            //TimeTest();
 #if (DEBUG)
             Console.ReadLine();
 #endif
@@ -130,6 +131,47 @@ namespace MexGrammar
 
             j += @"\end{document}";
             Console.WriteLine(j);
+        }
+
+        static void TimeTest()
+        {
+            string[] t = new string[3];
+            t[0] = "vei va'a by. ku'e su'i fe'a vei by. te'abo re vu'u vo pi'ibo .abu pi'ibo cy. ve'o ve'o fe'i re pi'ibo .abu";
+            t[1] = "+ + + + + + + + 1";
+            t[2] = "1 2 3 + 4 5 6 - 7 8 9 *";
+
+            for(int i = 0; i < 1000; i++)
+                foreach(string s in t)
+                {
+                    Lexer l = new Lexer(s);
+                    if (true)
+                    {
+                        ProductionStorage ps = new ProductionStorage(l);
+                        Mex n;
+                        if (ps.MakeProduction<Mex>(out n))
+                        {
+                            Console.WriteLine("Current Token: " + l.Current.Value);
+                            Console.WriteLine("Length of production: " + n.Length.ToString());
+                            Console.WriteLine(n.Verbose());
+                            try
+                            {
+                                Console.WriteLine("Answer: " + n.Evaluate());
+                            }
+                            catch { }
+                        }
+                    }
+                    else
+                    {
+                        Parser par = new Parser(l);
+                        try
+                        {
+                            Console.WriteLine(par.Result);
+                        }
+                        catch { }
+                        Console.WriteLine(par.Result.OutputPolishVerbose());
+                        Console.WriteLine();
+                    }
+                }
         }
 
         static string[] test = new string[]
