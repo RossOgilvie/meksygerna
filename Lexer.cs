@@ -100,6 +100,14 @@ namespace MexGrammar
         public void Seek(int Position) { _Pointer = Position; }
         public int Length { get { return _Stream.Count; } }
 
+        public override string ToString()
+        {
+            string s = "Lexer: ";
+            foreach (Token t in _Stream)
+                s += t.Value + " ";
+            return s;
+        }
+
         #region Character sorting functions
         private bool isSpace(char c)
         {

@@ -8,100 +8,39 @@ namespace MexGrammar
 {
     class Program
     {
-        /*
         static void Main(string[] args)
         {
-            List<string> input = new List<string>();
-#if (!DEBUG)
-            input.Add("");
-            //for now we just take all the args and make a string out of them
-            //in the future, we might support flags etc
-            foreach (string s in args)
-                input[0] += s + " ";
-#else
-            input.Add(".abu pi'ibo xy. te'abo re su'i by. pi'ibo xy. su'i cy.");
-            input.Add("1 by. + ku'e * 3");
-            input.Add("1 2 + * 3");
-            input.Add("1 2 +");
-            input.Add("1 + 2 + 3");
-            input.Add("va'a 2 su'i 1");
-            input.Add("+ 1 2 ku'e - 3");
-            input.Add("vei pe'o va'a 2 ku'e su'i pe'o fe'a vei 2 te'abo re vu'u vo pi'ibo 1 pi'ibo 1 ve'o ku'e ve'o fe'i re pi'ibo 1");
-            input.Add("vei va'a by ku'e su'i fe'a vei by. te'abo re vu'u vo pi'ibo .abu pi'ibo cy ve'o ve'o fe'i re pi'ibo .abu");
-            input.AddRange(new string[]{"biboi ciboi gei",
-"pa vu'u re",
-"pa su'i pa",
-"pa fe'i re pi'ibo .abu",
-"fe'i re pi'ibo .abu",
-"ci su'i vo pi'i bo mu",
-"ci su'i vo pi'i mu",
-"ci vu'u re",
-"ci vu'u vo",
-"fu'a ciboi muboi vu'u",
-"fu'a reboi 1 va'a",
-"fu'a reboi ci pi'i voboi mu pi'i su'i",
-"fu'a reboi ci su'i"});
-#endif
-            Console.WriteLine(Selmaho.VEhO.ToString());
-
-            foreach (string s in input)
-            {
-                //Do the parse
-                //Output the result of doing the mex and the polish form of it
-                try
-                {
-                    Lexer lex = new Lexer(s);
-                    Parser par = new Parser(lex);
-                    try
-                    {
-                        Console.WriteLine(par.Result);
-                    }
-                    catch { } //expressions with letters in them throw an exception.
-                    Console.WriteLine(par.Result.OutputPolish());
-                    Console.WriteLine(par.Result.OutputPolishVerbose());
-                    Console.WriteLine(par.Result.OutputLatex());
-                    Console.WriteLine();
-                }
-                catch (ParseError pe)
-                {
-                    Console.WriteLine(pe.Message + " ... " + pe.token.Value);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-            }
+            Normal();
+            //TestLatex();
+            //TimeTest();
 
 #if (DEBUG)
             Console.ReadLine();
 #endif
         }
-        */
 
-
-        static void Main(string[] args)
+        static void Normal()
         {
             string s = "1 + vei va'a 2 ku'e ve'o pi'i xa";
             Lexer l = new Lexer(s);
-            ProductionStorage ps = new ProductionStorage(l);
-            Mex n;
-            if (ps.MakeProduction<Mex>(out n))
+            try
             {
-                Console.WriteLine("Current Token: " + l.Current.Value);
-                Console.WriteLine("Length of production: " + n.Length.ToString());
-                Console.WriteLine(n.Verbose());
-                try
+                Parser p = new Parser(l);
+                if (p.Result != null)
                 {
-                    Console.WriteLine("Answer: " + n.Evaluate());
+                    Console.WriteLine(l.ToString() + " =>");
+                    Console.WriteLine(p.Result.Verbose());
+                    try
+                    {
+                        Console.WriteLine("Answer: " + p.Result.Evaluate());
+                    }
+                    catch { }
                 }
-                catch { }
             }
-
-            //TestLatex();
-            //TimeTest();
-#if (DEBUG)
-            Console.ReadLine();
-#endif
+            catch (ParseError pe)
+            {
+                Console.WriteLine(pe.Message + " : " + pe.token.Value);
+            }
         }
 
         static void TestLatex()
@@ -113,16 +52,15 @@ namespace MexGrammar
             {
                 string i = k.Split('|')[0];
                 Lexer l = new Lexer(i);
-                ProductionStorage ps = new ProductionStorage(l);
-                Mex n;
-                if (ps.MakeProduction<Mex>(out n))
+                Parser p = new Parser(l);
+                if(p.Result != null)
                 {
                     j += i + " == $";
-                    j += n.ToLatex();
+                    j += p.Result.ToLatex();
                     j+= "$";
                     try
                     {
-                        j += " = " + n.Evaluate().ToString();
+                        j += " = " + p.Result.Evaluate().ToString();
                     }
                     catch { }
                     j += "\r\n";
@@ -141,35 +79,20 @@ namespace MexGrammar
             t[2] = "1 2 3 + 4 5 6 - 7 8 9 *";
 
             for(int i = 0; i < 1000; i++)
-                foreach(string s in t)
+                foreach (string s in t)
                 {
                     Lexer l = new Lexer(s);
-                    if (true)
+                    Parser p = new Parser(l);
+                    if (p.Result != null)
                     {
-                        ProductionStorage ps = new ProductionStorage(l);
-                        Mex n;
-                        if (ps.MakeProduction<Mex>(out n))
-                        {
-                            Console.WriteLine("Current Token: " + l.Current.Value);
-                            Console.WriteLine("Length of production: " + n.Length.ToString());
-                            Console.WriteLine(n.Verbose());
-                            try
-                            {
-                                Console.WriteLine("Answer: " + n.Evaluate());
-                            }
-                            catch { }
-                        }
-                    }
-                    else
-                    {
-                        Parser par = new Parser(l);
+                        Console.WriteLine("Current Token: " + l.Current.Value);
+                        Console.WriteLine("Length of production: " + p.Result.Length.ToString());
+                        Console.WriteLine(p.Result.Verbose());
                         try
                         {
-                            Console.WriteLine(par.Result);
+                            Console.WriteLine("Answer: " + p.Result.Evaluate());
                         }
                         catch { }
-                        Console.WriteLine(par.Result.OutputPolishVerbose());
-                        Console.WriteLine();
                     }
                 }
         }
