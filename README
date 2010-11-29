@@ -9,7 +9,12 @@ Working from this base, I at first acted to remove the two heinous restrictions 
 
 While doing this I noticed that both fu'a and pe'o were basically marking the start of a new mex expression. In this light I have merged PEhO and FUhA into VEI. They therefore now carry semantic meaning only, and have the same syntactic meaning as vei. For example, if I use pe'o, it means I'm starting a new mex (like vei) but it also means to the listener that I intend the mex to be a polish expression.
 
-The role of ku'e was similarly expanded for use in RP as well. ku'e now has the 2 uses
+I have noticed a problem with this for pe'o, now that it and ku'e aren't partners anymore
+4 / pe'o + 1 ku'e * 2 = 4 / ( (+ 1) * 2) = 2 NEW
+vs OLD = 4 / (+1) * 2 = 8
+Still thinking of the solution to this. 
+
+The role of ku'e was expanded for use in RP as well. ku'e now has the 2 uses
 1) after a string of mex-2 (ie string of polish expressions and/or operands) to signal the end of a polish expression. It already had this role.
 2) after an RP operator to signal the end of the RP expression. It is needed sometimes when the RP operator is only taking one argument and there is potential confussion for an infix operator.
 Example 1 + - 2 = (1 (+ (- 2))) = 1, -2
@@ -27,5 +32,4 @@ It is slightly unfortunate that the subsequent arguments of infix and RP express
 
 I used to allow RP expressions to have operands and polish expressions as subsequent arguments. This effectively forced a ku'e to be required after every RP operator, otherwise the RP operator had a tendency to become a polish one. If you want to use a polish expression as an argument for an RP expression 1) you're probably being a pain in the arse, I mean seriously, Polish and Reverse Polish in the one thing?! 2) just use a pe'o ... ku'e .
 
-Since I was basically expanding RP to have any number of arguments, I wanted a way to have nullary operators. A few times I've put them in as a form of Polish. But it tends to stuff things up. For the moment they are permitted if you wrap the operator by itself in brackets. Maybe I'll think of a clever way of putting them in 'naturalistically'.
-
+Since I was basically expanding RP to have any number of arguments, I wanted a way to have nullary operators. A few times I've put them in as a form of Polish. But it tends to stuff things up. For the moment they are not permitted. Maybe I'll think of a clever way of putting them in 'organically'.
