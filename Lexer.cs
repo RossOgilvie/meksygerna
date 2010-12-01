@@ -8,7 +8,9 @@ namespace MexGrammar
 {
     public class Lexer
     {
-        public Lexer(string input)
+        public Lexer(string input) : this(input, false) { }
+
+        public Lexer(string input, bool quirks)
         {
             _Stream = new List<Token>();
             string currWord = "";
@@ -34,7 +36,8 @@ namespace MexGrammar
                     //if it's a space, then finish off the word
                     currWord = flushWord(currWord, _Stream);
                     //check it wasn't a space at the beginning of the input.
-                    if (_Stream.Count > 0)
+                    //In quirks mode, spaces finish-off certain contructs
+                    if (_Stream.Count > 0 && quirks)
                     {
                         //if that word was a PA, then add a boi (spaces terminate numbers)
                         if (_Stream[_Stream.Count - 1].Type == Selmaho.PA)
@@ -54,12 +57,15 @@ namespace MexGrammar
                     //check it wasn't a . at the beginning of the input.
                     if (_Stream.Count > 0)
                     {
-                        //if that word was a PA, then add a boi (dots terminate numbers)
+                        //if that word was a PA, then this is a decimal point
                         if (_Stream[_Stream.Count - 1].Type == Selmaho.PA)
-                            _Stream.Add(new Token("boi"));
-                        //if that word was an A, then add a bu (dots change A into A BU)
-                        if (_Stream[_Stream.Count - 1].Type == Selmaho.A)
-                            _Stream.Add(new Token("bu"));
+                            _Stream.Add(new Token("."));
+                        if (quirks)
+                        {
+                            //if that word was an A, then add a bu (dots change A into A BU)
+                            if (_Stream[_Stream.Count - 1].Type == Selmaho.A)
+                                _Stream.Add(new Token("bu"));
+                        }
                     }
                 }
             }
@@ -228,6 +234,9 @@ namespace MexGrammar
                 case "ze":
                 case "bi":
                 case "so":
+                case "ki'o":
+                case ".":
+                case "pi":
                     _Type = Selmaho.PA;
                     break;
                 case "boi":
