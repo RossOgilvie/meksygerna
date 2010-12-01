@@ -6,7 +6,7 @@ using System.Text;
 namespace MexGrammar.Productions
 {
     /// <summary>
-    /// lerfu-string = ( BY | A BU ) ( BY | A BU )* BOI?
+    /// lerfu-string = ( BY | anyword BU ) ( BY | anyword BU )* BOI?
     /// </summary>
     class LerfuString:NonTerminal
     {
@@ -39,17 +39,22 @@ namespace MexGrammar.Productions
 
         public override bool CreateNonTerminal(Lexer lex, ProductionStorage ps)
         {
-            BY by;
-            A a;
+            string by;
 
             // get the leading ( BY | A BU )
-            if (ps.MatchProduction<BY>(out by))
+            if (ps.MatchProduction(Selmaho.BY, out by))
             {
-                _String += by.ToString();
+                if (by.Length == 2)
+                    by = by[0].ToString();
+                _String += by;
             }
-            else if (ps.MatchProduction<A>(out a) && ps.MatchProduction(Selmaho.BU))
+            else if (lex.Peek.Type == Selmaho.BU)
             {
-                _String += a.ToString();
+                string l = lex.Advance();
+                if (l.Length > 1)
+                    l = "(" + l + ")";
+                _String += l;
+                lex.Advance();//eat the bu
             }
             else
             {
@@ -58,13 +63,19 @@ namespace MexGrammar.Productions
 
             while(true)
             {
-                if (ps.MatchProduction<BY>(out by))
+                if (ps.MatchProduction(Selmaho.BY, out by))
                 {
-                    _String += by.ToString();
+                    if (by.Length == 2)
+                        by = by[0].ToString();
+                    _String += by;
                 }
-                else if (ps.MatchProduction<A>(out a) && ps.MatchProduction(Selmaho.BU))
+                else if (lex.Peek.Type == Selmaho.BU)
                 {
-                    _String += a.ToString();
+                    string l = lex.Advance();
+                    if (l.Length > 1)
+                        l = "(" + l + ")";
+                    _String += l;
+                    lex.Advance();//eat the bu
                 }
                 else
                     break;

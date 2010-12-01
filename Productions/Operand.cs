@@ -6,7 +6,7 @@ using System.Text;
 namespace MexGrammar.Productions
 {
     /// <summary>
-    /// operand = number | lerfu-string | VEI# mex /VEhO#/
+    /// operand = lerfu-string | number| VEI# mex /VEhO#/
     /// </summary>
     class Operand:NonTerminal
     {
@@ -14,17 +14,17 @@ namespace MexGrammar.Productions
 
         public override string ToString()
         {
-            return result != null ? result.ToString() : "Mex1 not yet iniatialised.";
+            return result != null ? result.ToString() : "Operand not yet iniatialised.";
         }
 
         public override string ToPolish()
         {
-            return result != null ? result.ToPolish() : "Mex1 not yet iniatialised.";
+            return result != null ? result.ToPolish() : "Operand not yet iniatialised.";
         }
 
         public override string Verbose()
         {
-            return result != null ? result.Verbose() : "Mex1 not yet iniatialised.";
+            return result != null ? result.Verbose() : "Operand not yet iniatialised.";
         }
 
         public override string ToLatex()
@@ -37,7 +37,7 @@ namespace MexGrammar.Productions
                 output += result.GetType() == typeof(Mex) ? " \\right) " : "";
                 return output;
             }
-            else return "Mex1 not yet iniatialised.";
+            else return "Operand not yet iniatialised.";
         }
 
         public override double Evaluate()
@@ -45,7 +45,7 @@ namespace MexGrammar.Productions
             if (result != null)
                 return result.Evaluate();
             else
-                throw new NullReferenceException("Mex1 not yet iniatialised.");
+                throw new NullReferenceException("Operand not yet iniatialised.");
         }
 
         public override bool CreateNonTerminal(Lexer lex, ProductionStorage ps)
@@ -56,14 +56,14 @@ namespace MexGrammar.Productions
             LerfuString _l;
             Mex _m;
 
-            if (ps.MatchProduction<Number>(out _n))
-            {
-                result = _n;
-                return true;
-            }
-            else if (ps.MatchProduction<LerfuString>(out _l))
+            if (ps.MatchProduction<LerfuString>(out _l))
             {
                 result = _l;
+                return true;
+            }
+            else if (ps.MatchProduction<Number>(out _n))
+            {
+                result = _n;
                 return true;
             }
             else if (ps.MatchProduction(Selmaho.VEI) && ps.MatchProduction<Mex>(out _m))

@@ -91,7 +91,7 @@ namespace MexGrammar
         private int _Pointer = 0;
 
         public Token Current { get { return _Stream[_Pointer]; } }
-        public Token Peek { get { return _Stream[_Pointer + 1]; } }
+        public Token Peek { get { return _Stream[_Pointer == _Stream.Count - 1 ? _Pointer : _Pointer + 1]; } } //if at end, peeking stays at end
         public string Advance()
         {
             string s = Current.Value;

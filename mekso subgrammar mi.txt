@@ -13,9 +13,9 @@ OR
 	PEhO? operator mex-2+ KUhE?
 
 operand =
-	polish
+	lerfu-string
+	| polish
 	| number
-	| lerfu-string
 	| VEI# mex /VEhO#/
 	| NIhE# selbri /TEhU#/
 	| MOhE# sumti /TEhU#/

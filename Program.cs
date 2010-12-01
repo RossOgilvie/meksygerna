@@ -20,7 +20,7 @@ namespace MexGrammar
 
         static void Normal()
         {
-            string s = "cinoki'oki'o + 3";
+            string s = "su'ibubygy.abu";
             Lexer l = new Lexer(s);
             try
             {
