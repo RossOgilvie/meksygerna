@@ -43,7 +43,7 @@ namespace MexGrammar.Productions
 
             //get the leading PA
             PA n;
-            if (ps.MakeProduction<PA>(out n))
+            if (ps.MatchProduction<PA>(out n))
             {
                 _Number += n.Evaluate();
             }
@@ -52,7 +52,7 @@ namespace MexGrammar.Productions
 
             while (true)
             {
-                if (ps.MakeProduction<PA>(out n))
+                if (ps.MatchProduction<PA>(out n))
                 {
                     //shift the digits up one place value
                     _Number *= 10;
@@ -65,7 +65,7 @@ namespace MexGrammar.Productions
 
             //eat the BOI that might be there
             BOI boi = new BOI();
-            ps.MakeProduction<BOI>(out boi);
+            ps.MatchProduction<BOI>(out boi);
 
             return true;
         }

@@ -55,11 +55,6 @@ namespace MexGrammar.Productions
         }
     }
 
-    class BO : MarkerTerminal
-    {
-        public BO() : base(Selmaho.BO) { }
-    }
-
     class BOI : MarkerTerminal
     {
         public BOI() : base(Selmaho.BOI) { }

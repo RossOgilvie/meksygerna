@@ -13,13 +13,13 @@ namespace MexGrammar.Productions
         public override bool CreateNonTerminal(Lexer lex, ProductionStorage ps)
         {
             int save = lex.Position;
-            if (ps.MakeProduction<Operator>(out _operator))
+            if (ps.MatchProduction<Operator>(out _operator))
             {
                 //try to get as many mex2 as we can
                 do
                 {
                     Mex2 m;
-                    if (ps.MakeProduction<Mex2>(out m))
+                    if (ps.MatchProduction<Mex2>(out m))
                     {
                         _args.Add(m);
                     }
@@ -37,7 +37,7 @@ namespace MexGrammar.Productions
 
                 //try to grab an optional KUhE
                 KUhE k;
-                ps.MakeProduction<KUhE>(out k);
+                ps.MatchProduction<KUhE>(out k);
 
                 return true;
             }

@@ -44,13 +44,13 @@ namespace MexGrammar.Productions
             BU bu = new BU();
 
             // get the leading ( BY | A BU )
-            if (ps.MakeProduction<BY>(out by))
+            if (ps.MatchProduction<BY>(out by))
             {
                 _String += by.ToString();
             }
-            else if (ps.MakeProduction<A>(out a))
+            else if (ps.MatchProduction<A>(out a))
             {
-                if (ps.MakeProduction<BU>(out bu))
+                if (ps.MatchProduction<BU>(out bu))
                 {
                     _String += a.ToString();
                 }
@@ -62,13 +62,13 @@ namespace MexGrammar.Productions
 
             while(true)
             {
-                if (ps.MakeProduction<BY>(out by))
+                if (ps.MatchProduction<BY>(out by))
                 {
                     _String += by.ToString();
                 }
-                else if (ps.MakeProduction<A>(out a))
+                else if (ps.MatchProduction<A>(out a))
                 {
-                    if (ps.MakeProduction<BU>(out bu))
+                    if (ps.MatchProduction<BU>(out bu))
                     {
                         _String += a.ToString();
                     }
@@ -79,7 +79,7 @@ namespace MexGrammar.Productions
 
             //eat the BOI that might be there
             BOI boi = new BOI();
-            ps.MakeProduction<BOI>(out boi);
+            ps.MatchProduction<BOI>(out boi);
 
             return true;
         }

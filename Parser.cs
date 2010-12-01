@@ -13,7 +13,7 @@ namespace MexGrammar
         {
             lex = l;
             ProductionStorage ps = new ProductionStorage(l);
-            if (!ps.MakeProduction<Mex>(out Result))
+            if (!ps.MatchProduction<Mex>(out Result))
                 throw new ParseError("Parse failed.", l.Current);
             if (l.Current.Type != Selmaho.EndOfStream)
                 throw new ParseError("Parse ended before end of input.", l.Current);

@@ -57,22 +57,22 @@ namespace MexGrammar.Productions
             VEI _v;
             Mex _m;
 
-            if (ps.MakeProduction<Number>(out _n))
+            if (ps.MatchProduction<Number>(out _n))
             {
                 result = _n;
                 return true;
             }
-            else if (ps.MakeProduction<LerfuString>(out _l))
+            else if (ps.MatchProduction<LerfuString>(out _l))
             {
                 result = _l;
                 return true;
             }
-            else if (ps.MakeProduction<VEI>(out _v) && ps.MakeProduction<Mex>(out _m))
+            else if (ps.MatchProduction<VEI>(out _v) && ps.MatchProduction<Mex>(out _m))
             {
                 result = _m;
 
                 VEhO _vo;
-                ps.MakeProduction<VEhO>(out _vo);
+                ps.MatchProduction<VEhO>(out _vo);
                 return true;
             }
 

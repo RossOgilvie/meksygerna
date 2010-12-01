@@ -44,12 +44,12 @@ namespace MexGrammar.Productions
         {
             Polish _polish;
             Operand _operand;
-            if (ps.MakeProduction<Polish>(out _polish))
+            if (ps.MatchProduction<Polish>(out _polish))
             {
                 _Result = _polish;
                 return true;
             }
-            else if (ps.MakeProduction<Operand>(out _operand))
+            else if (ps.MatchProduction<Operand>(out _operand))
             {
                 _Result = _operand;
                 return true;

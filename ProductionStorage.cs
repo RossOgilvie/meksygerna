@@ -27,7 +27,7 @@ namespace MexGrammar
         /// <typeparam name="E"></typeparam>
         /// <param name="Result"></param>
         /// <returns></returns>
-        public bool MakeProduction<E>(out E Result) where E : NonTerminal, new()
+        public bool MatchProduction<E>(out E Result) where E : NonTerminal, new()
         {
             NonTerminal res;
             int StartPos = _Lex.Position;
@@ -73,6 +73,26 @@ namespace MexGrammar
                     return false;
                 }
             }
+        }
+
+        public bool MatchProduction(Selmaho Type, out string Value)
+        {
+            if (_Lex.Current.Type == Type)
+            {
+                Value = _Lex.Advance();
+                return true;
+            }
+            else
+            {
+                Value = "";
+                return false;
+            }
+        }
+
+        public bool MatchProduction(Selmaho Type)
+        {
+            string s;
+            return MatchProduction(Type, out s);
         }
     }
 }

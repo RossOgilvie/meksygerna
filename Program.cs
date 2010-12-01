@@ -20,7 +20,7 @@ namespace MexGrammar
 
         static void Normal()
         {
-            string s = "1 + vei va'a 2 ku'e ve'o pi'i xa";
+            string s = "1 + bo 2";
             Lexer l = new Lexer(s);
             try
             {

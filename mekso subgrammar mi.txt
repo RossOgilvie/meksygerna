@@ -5,11 +5,16 @@ FUhA, PEhO -> VEI
 mex = mex-1 ( operator mex-1 | operand * operator KUhE? ) *
 	
 mex-1 =	mex-2 ( operator BO mex-2 )*
-	
-mex-2 =	operator mex-2 + KUhE? | operand
+
+polish = 
+	operator mex-2+ KUhE?
+	| VEI operatroe mex-2+ KUhE
+OR
+	PEhO? operator mex-2+ KUhE?
 
 operand =
-	number
+	polish
+	| number
 	| lerfu-string
 	| VEI# mex /VEhO#/
 	| NIhE# selbri /TEhU#/
@@ -19,7 +24,3 @@ operand =
 	
 number = PA+ BOI?
 lerfu-string = ( BY | A BU )+ BOI
-
-Long Form, for ease of programming
-mex-2 =	polish | operand
-polish = operator mex-2 + KUhE?
