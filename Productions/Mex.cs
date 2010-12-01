@@ -92,8 +92,7 @@ namespace MexGrammar.Productions
                             break; // havent matched an infix or an rp
                         }
 
-                        KUhE k;
-                        ps.MatchProduction<KUhE>(out k);
+                        ps.MatchProduction(Selmaho.KUhE);
                     }
                 }
 

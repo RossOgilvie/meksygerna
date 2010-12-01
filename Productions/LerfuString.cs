@@ -39,21 +39,17 @@ namespace MexGrammar.Productions
 
         public override bool CreateNonTerminal(Lexer lex, ProductionStorage ps)
         {
-            BY by = new BY();
-            A a = new A();
-            BU bu = new BU();
+            BY by;
+            A a;
 
             // get the leading ( BY | A BU )
             if (ps.MatchProduction<BY>(out by))
             {
                 _String += by.ToString();
             }
-            else if (ps.MatchProduction<A>(out a))
+            else if (ps.MatchProduction<A>(out a) && ps.MatchProduction(Selmaho.BU))
             {
-                if (ps.MatchProduction<BU>(out bu))
-                {
-                    _String += a.ToString();
-                }
+                _String += a.ToString();
             }
             else
             {
@@ -66,20 +62,16 @@ namespace MexGrammar.Productions
                 {
                     _String += by.ToString();
                 }
-                else if (ps.MatchProduction<A>(out a))
+                else if (ps.MatchProduction<A>(out a) && ps.MatchProduction(Selmaho.BU))
                 {
-                    if (ps.MatchProduction<BU>(out bu))
-                    {
-                        _String += a.ToString();
-                    }
+                    _String += a.ToString();
                 }
                 else
                     break;
             }
 
             //eat the BOI that might be there
-            BOI boi = new BOI();
-            ps.MatchProduction<BOI>(out boi);
+            ps.MatchProduction(Selmaho.BOI);
 
             return true;
         }

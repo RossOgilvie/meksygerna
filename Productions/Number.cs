@@ -64,8 +64,7 @@ namespace MexGrammar.Productions
             }
 
             //eat the BOI that might be there
-            BOI boi = new BOI();
-            ps.MatchProduction<BOI>(out boi);
+            ps.MatchProduction(Selmaho.BOI);
 
             return true;
         }

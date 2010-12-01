@@ -54,7 +54,6 @@ namespace MexGrammar.Productions
 
             Number _n;
             LerfuString _l;
-            VEI _v;
             Mex _m;
 
             if (ps.MatchProduction<Number>(out _n))
@@ -67,12 +66,10 @@ namespace MexGrammar.Productions
                 result = _l;
                 return true;
             }
-            else if (ps.MatchProduction<VEI>(out _v) && ps.MatchProduction<Mex>(out _m))
+            else if (ps.MatchProduction(Selmaho.VEI) && ps.MatchProduction<Mex>(out _m))
             {
                 result = _m;
-
-                VEhO _vo;
-                ps.MatchProduction<VEhO>(out _vo);
+                ps.MatchProduction(Selmaho.VEhO);
                 return true;
             }
 

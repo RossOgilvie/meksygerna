@@ -36,8 +36,7 @@ namespace MexGrammar.Productions
                 }
 
                 //try to grab an optional KUhE
-                KUhE k;
-                ps.MatchProduction<KUhE>(out k);
+                ps.MatchProduction(Selmaho.KUhE);
 
                 return true;
             }
