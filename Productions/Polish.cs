@@ -6,22 +6,26 @@ using System.Text;
 namespace MexGrammar.Productions
 {
     /// <summary>
-    /// polish = operator mex-2 + KUhE?
+    /// polish = operator operand + KUhE?
     /// </summary>
     class Polish:Expression
     {
         public override bool CreateNonTerminal(Lexer lex, ProductionStorage ps)
         {
             int save = lex.Position;
+
+            //try to match an option PEhO
+            ps.MatchProduction(Selmaho.PEhO);
+
             if (ps.MatchProduction<Operator>(out _operator))
             {
-                //try to get as many mex2 as we can
+                //try to get as many op as we can
                 do
                 {
-                    Mex2 m;
-                    if (ps.MatchProduction<Mex2>(out m))
+                    Operand _o;
+                    if (ps.MatchProduction<Operand>(out _o))
                     {
-                        _args.Add(m);
+                        _args.Add(_o);
                     }
                     else
                         break;

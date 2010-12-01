@@ -1,26 +1,41 @@
 mekso gerna pe mi
 Merges
-FUhA, PEhO -> VEI
+FUhA -> VEI
 
-mex = mex-1 ( operator mex-1 | operand * operator KUhE? ) *
-	
-mex-1 =	mex-2 ( operator BO mex-2 )*
+mex = mex-1 (operator mex-1 | operand * operator KUhE?)*
 
-polish = 
-	operator mex-2+ KUhE?
-	| VEI operatroe mex-2+ KUhE
-OR
-	PEhO? operator mex-2+ KUhE?
+mex-1 =	operand ( (BIhE operator | operator BO) operand )*
 
 operand =
 	lerfu-string
-	| polish
 	| number
+	| polish
 	| VEI# mex /VEhO#/
 	| NIhE# selbri /TEhU#/
 	| MOhE# sumti /TEhU#/
 	| gek mex gik mex-2
 	| (LAhE# / NAhE# BO#) mex /LUhU#/
 	
+polish = PEhO? operator operand + KUhE?
+	
 number = PA+ BOI?
-lerfu-string = ( BY | A BU )+ BOI
+lerfu-string = ( BY | anyword BU )+ BOI
+
+;-----------------------------------------------------
+Unsolvable conflict:
+If you want to have 
++ 1 2 ku'e + 3 => ( + 1 2 ) + 3
+and a rule: vei mex
+then 
+0 - vei + 1 2 ku'e + 3 => 0 - [ 6 ]
+So then if pe'o -> vei you have to have ku'e -> ve'o
+
+but the desirability of + 1 2 ku'e + 3 is not to be dismissed. Which leads us to ellidible left brackets
+but that breaks even even even more
+
+
+
+
+
+
+

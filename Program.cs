@@ -9,8 +9,8 @@ namespace MexGrammar
     {
         static void Main(string[] args)
         {
-            Normal();
-            //TestLatex();
+            //Normal();
+            TestLatex();
             //TimeTest();
 
 #if (DEBUG)
@@ -20,7 +20,7 @@ namespace MexGrammar
 
         static void Normal()
         {
-            string s = "su'ibubygy.abu";
+            string s = ".abu pi'ibo vei xy. te'a re ve'o su'i by. pi'ibo xy. su'i cy.";
             Lexer l = new Lexer(s);
             try
             {
@@ -62,7 +62,7 @@ namespace MexGrammar
                         j += " = " + p.Result.Evaluate().ToString();
                     }
                     catch { }
-                    j += "\r\n";
+                    j += "\r\n\r\n";
                 }
             }
 

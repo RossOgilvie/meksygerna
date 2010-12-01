@@ -199,10 +199,12 @@ namespace MexGrammar
                     _Type = Selmaho.EndOfStream;
                     break;
                 case "fu'a":
-                case "pe'o":
                 case "vei":
                 case "(":
                     _Type = Selmaho.VEI;
+                    break;
+                case "pe'o":
+                    _Type = Selmaho.PEhO;
                     break;
                 case "ve'o":
                 case ")":
@@ -312,5 +314,5 @@ namespace MexGrammar
     }
 
     public enum Selmaho
-    { A, BO, BOI, BU, BY, KUhE, Operator, PA, VEI, VEhO, Unknown, EndOfStream }
+    { A, BO, BOI, BU, BY, KUhE, Operator, PA, PEhO, VEI, VEhO, Unknown, EndOfStream }
 }

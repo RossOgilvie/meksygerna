@@ -6,7 +6,7 @@ using System.Text;
 namespace MexGrammar.Productions
 {
     /// <summary>
-    /// operand = lerfu-string | number| VEI# mex /VEhO#/
+    /// operand = lerfu-string | number | polish | VEI# mex /VEhO#/
     /// </summary>
     class Operand:NonTerminal
     {
@@ -55,6 +55,7 @@ namespace MexGrammar.Productions
             Number _n;
             LerfuString _l;
             Mex _m;
+            Polish _p;
 
             if (ps.MatchProduction<LerfuString>(out _l))
             {
@@ -64,6 +65,11 @@ namespace MexGrammar.Productions
             else if (ps.MatchProduction<Number>(out _n))
             {
                 result = _n;
+                return true;
+            }
+            else if (ps.MatchProduction<Polish>(out _p))
+            {
+                result= _p;
                 return true;
             }
             else if (ps.MatchProduction(Selmaho.VEI) && ps.MatchProduction<Mex>(out _m))
